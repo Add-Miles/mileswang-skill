@@ -72,3 +72,7 @@ Default to this compact response:
 Keep the internal audit out of the final copy. Do not add an inspirational ending or a summary slogan unless the material and delivery purpose require it.
 
 Read [worked revisions and checks](references/examples.md) when the source mixes verified facts with promotional claims or when a concise rewrite needs a concrete comparison.
+
+## Respect the router boundary
+
+When `mileswang` invokes this Skill, use the host-provided active Skill catalog as the only availability authority and keep the selected executor unchanged. Do not rediscover or replace the selected executor from disk folders, plugin caches, local inventories, or configuration files.

@@ -2,15 +2,15 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前稳定版本：[`v0.1.1`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.1.1)。
+当前稳定版本：[`v0.2.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.2.0)。
 
-它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.1.1 只交付 Miles 原创的项目执行与内容创作方法，以及可复现的集成和发布底盘；尚未存在的 X 插件、模型调用、MCP 服务和账号能力不在本版本中。
+它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.2.0 交付 Miles 原创的路由、项目执行与内容创作方法，以及可复现的集成和发布底盘；尚未存在的 X 插件、模型调用、MCP 服务和账号能力不在本版本中。
 
-## v0.1.1 包含什么
+## v0.2.0 包含什么
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
-| `mileswang` | 用户只有模糊目标，或不确定该用哪个 Miles 模块 | 识别任务边界，并路由到最小适用模块 |
+| `mileswang` | 用户只有模糊目标、不确定该用哪个 Skill，或希望调用已安装的第三方 Skill | 依据当前会话 active catalog，路由到精确内部或外部 executor |
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
 
@@ -21,7 +21,7 @@
 先添加这个仓库提供的 marketplace，再安装其中唯一的插件：
 
 ```bash
-codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.1.1
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.2.0
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
@@ -46,6 +46,21 @@ codex plugin add mileswang-skill@mileswang-skill
 ```
 
 如果任务明确属于某个模块，也可以直接点名 `miles-project` 或 `miles-content`。这些 Skill 不会代替专门的设计、视频、浏览器或平台工具；遇到专业任务时，应该继续使用更窄、更匹配的能力。
+
+## 路由其他作者的 Skill
+
+`mileswang` 可以把任务交给当前会话已经公布的第三方 Skill，但不会把第三方内容收进 Miles 仓库。
+
+路由只认宿主提供的 active Skill catalog：
+
+- `internal`：使用 `miles-project` 或 `miles-content`；
+- `external-available`：使用当前会话真实可用的外部 Skill，并保留完整规范名，例如 `pdf:pdf`、`github:gh-fix-ci`；
+- `unavailable`：用户点名的 Skill 当前不可用，不静默替换；
+- `ambiguous`：多个 active Skill 同样适用，或同一规范名对应多个不可区分的宿主条目；只问一个能决定归属的问题。
+
+用户显式点名不等于强制调用。Skill 必须既在当前会话可用，又适合核心操作。磁盘目录、旧缓存和其他会话里曾经出现过的 Skill 都不能证明本会话可执行。
+
+外部 Skill 由原作者维护并受原许可证约束。Miles 只做运行时委托，不复制其 prompt、代码、资产、配置、凭据或运行数据。
 
 ## 可选的项目规则模板
 
@@ -107,7 +122,7 @@ python3 tools/new_skill.py miles-example \
 python3 tools/check_routing_contract.py
 ```
 
-未来的 X 能力也遵循同一规则：只有真实代码、合法数据源、许可证、安全边界和可重复验收都存在时，才新增独立模块；v0.1.1 不预埋一个假的 `miles-x`。
+未来的 X 能力也遵循同一规则：只有真实代码、合法数据源、许可证、安全边界和可重复验收都存在时，才新增独立模块；v0.2.0 不预埋一个假的 `miles-x`。
 
 ## 维护与发布
 
@@ -118,7 +133,7 @@ python3 tools/validate.py
 python3 tools/check_routing_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
-python3 -m zipfile -t dist/mileswang-skill-v0.1.1.zip
+python3 -m zipfile -t dist/mileswang-skill-v0.2.0.zip
 ```
 
 合并后的 `v*` tag 必须与 `VERSION` 完全一致。tag 工作流会重新执行这些 Gate，并只在全部通过后创建 GitHub Release 和可下载 zip。发布成功证明的是版本、路由、结构和分发链成立，不证明内容效果。

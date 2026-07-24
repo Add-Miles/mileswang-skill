@@ -11,6 +11,8 @@ These instructions apply only to this repository. They do not replace a user's g
 - Add future capabilities as independent Skills under `plugins/mileswang-skill/skills/`.
 - Do not add a placeholder capability before its real implementation, inputs, license, security boundary, and acceptance path exist.
 - Do not copy or rename third-party Skill content and present it as Miles-owned work.
+- Route to third-party Skills only by exact name from the current session's active catalog. Do not publish a machine-specific inventory or infer availability from disk caches.
+- If the active catalog exposes the same canonical name more than once without unique callable identities, stop as `ambiguous`; never resolve it by provider, path, or cache order.
 
 ## Sources of truth
 
@@ -85,5 +87,6 @@ Before claiming a release is ready:
 11. For a public release, verify the unauthenticated GitHub URL, exact published commit, tag, workflow run, and release asset.
 
 Every Miles-owned leaf Skill must be linked by `mileswang`, documented in the README capability table, and covered by at least one case in `tests/routing-cases.json`. A scaffolded but unregistered Skill is a release-blocking orphan.
+Runtime external-routing cases must preserve namespaced canonical names and cover internal, external-available, unavailable, and ambiguous states. Third-party executors remain independently installed and are never bundled by a routing test.
 
 Structural checks, installation, and public visibility are intermediate evidence. State workflow usefulness only at the level proven by real use.
