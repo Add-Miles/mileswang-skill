@@ -12,6 +12,7 @@ from typing import Iterable
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+SEMVER_RE = re.compile(r"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$")
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 HIGH_RISK_PATTERNS = {
     "private home path": re.compile(r"/" r"Users/[^/\s]+/"),
@@ -30,11 +31,13 @@ PUBLISH_SCAN_ROOTS = (
     "LICENSE",
     "VERSION",
     "templates",
+    ".github",
     ".agents",
     "plugins",
     "tools",
     "tests",
 )
+IGNORED_PUBLIC_PARTS = {".git", "__pycache__", ".pytest_cache", ".DS_Store"}
 
 
 class ValidationError(Exception):
@@ -46,6 +49,16 @@ def read_json(path: Path) -> dict:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ValidationError(f"invalid JSON at {path}: {exc}") from exc
+
+
+def resolve_within(base: Path, relative: str, label: str) -> Path:
+    resolved_base = base.resolve()
+    resolved = (resolved_base / relative).resolve()
+    try:
+        resolved.relative_to(resolved_base)
+    except ValueError as exc:
+        raise ValidationError(f"{label} escapes its allowed directory: {relative}") from exc
+    return resolved
 
 
 def parse_frontmatter(path: Path) -> tuple[dict[str, str], str]:
@@ -89,39 +102,76 @@ def iter_public_files(repo_root: Path) -> Iterable[Path]:
             yield candidate
         elif candidate.is_dir():
             for path in candidate.rglob("*"):
-                if path.is_file() and ".git" not in path.parts:
+                relative_parts = set(path.relative_to(repo_root).parts)
+                if path.is_file() and not (relative_parts & IGNORED_PUBLIC_PARTS):
                     yield path
 
 
 def scan_public_files(repo_root: Path) -> None:
     for path in iter_public_files(repo_root):
+        if path.is_symlink():
+            raise ValidationError(f"symlink is not allowed in public files: {path}")
         try:
             text = path.read_text(encoding="utf-8")
-        except UnicodeDecodeError:
-            continue
+        except UnicodeDecodeError as exc:
+            raise ValidationError(
+                f"non-UTF-8 public file requires an explicit release policy: {path}"
+            ) from exc
         for label, pattern in HIGH_RISK_PATTERNS.items():
             if pattern.search(text):
                 raise ValidationError(f"{label} found in public file: {path}")
 
 
+def validate_all_json(repo_root: Path) -> int:
+    json_paths = sorted(
+        path for path in iter_public_files(repo_root) if path.suffix == ".json"
+    )
+    for path in json_paths:
+        read_json(path)
+    return len(json_paths)
+
+
+def validate_version_contract(repo_root: Path, manifest: dict) -> str:
+    version = (repo_root / "VERSION").read_text(encoding="utf-8").strip()
+    if not SEMVER_RE.fullmatch(version):
+        raise ValidationError(
+            f"VERSION must be stable semantic version x.y.z: {version!r}"
+        )
+    if manifest.get("version") != version:
+        raise ValidationError("VERSION does not match plugin manifest")
+
+    readme = (repo_root / "README.md").read_text(encoding="utf-8")
+    release_ref = f"--ref v{version}"
+    if release_ref not in readme:
+        raise ValidationError(f"README stable install command must pin {release_ref}")
+    release_url = (
+        "https://github.com/Add-Miles/mileswang-skill/releases/tag/" f"v{version}"
+    )
+    if release_url not in readme:
+        raise ValidationError(f"README current release link must point to v{version}")
+    return version
+
+
 def validate_repo(repo_root: Path = REPO_ROOT) -> list[str]:
     checks: list[str] = []
+    json_count = validate_all_json(repo_root)
+    checks.append(f"{json_count} public JSON files")
+
     marketplace_path = repo_root / ".agents" / "plugins" / "marketplace.json"
     marketplace = read_json(marketplace_path)
-    checks.append("marketplace JSON")
 
     if marketplace.get("name") != "mileswang-skill":
         raise ValidationError("marketplace name must be mileswang-skill")
     entries = marketplace.get("plugins")
     if not isinstance(entries, list) or len(entries) != 1:
-        raise ValidationError("marketplace must expose exactly one plugin in v0.1")
+        raise ValidationError("marketplace must expose exactly one plugin")
     entry = entries[0]
     if entry.get("name") != "mileswang-skill":
         raise ValidationError("marketplace plugin name mismatch")
     source_path = entry.get("source", {}).get("path")
     if not isinstance(source_path, str) or not source_path.startswith("./"):
         raise ValidationError("marketplace source path must start with ./")
-    plugin_dir = (repo_root / source_path).resolve()
+    plugin_dir = resolve_within(repo_root, source_path, "marketplace plugin path")
     if not plugin_dir.is_dir():
         raise ValidationError(f"marketplace plugin path does not exist: {plugin_dir}")
     checks.append("marketplace source path")
@@ -133,14 +183,13 @@ def validate_repo(repo_root: Path = REPO_ROOT) -> list[str]:
         raise ValidationError("plugin manifest name does not match marketplace")
     if manifest.get("license") != "MIT":
         raise ValidationError("plugin manifest license must be MIT")
-    version = (repo_root / "VERSION").read_text(encoding="utf-8").strip()
-    if manifest.get("version") != version:
-        raise ValidationError("VERSION does not match plugin manifest")
+    version = validate_version_contract(repo_root, manifest)
+    checks.append(f"release version contract v{version}")
 
     skills_relative = manifest.get("skills")
     if not isinstance(skills_relative, str):
         raise ValidationError("plugin manifest is missing skills path")
-    skills_root = (plugin_dir / skills_relative).resolve()
+    skills_root = resolve_within(plugin_dir, skills_relative, "plugin skills path")
     if not skills_root.is_dir():
         raise ValidationError(f"plugin skills path does not exist: {skills_root}")
     required = {"mileswang", "miles-project", "miles-content"}
@@ -163,7 +212,7 @@ def validate_repo(repo_root: Path = REPO_ROOT) -> list[str]:
 
     readme = (repo_root / "README.md").read_text(encoding="utf-8")
     for command in (
-        "codex plugin marketplace add Add-Miles/mileswang-skill --ref main",
+        f"codex plugin marketplace add Add-Miles/mileswang-skill --ref v{version}",
         "codex plugin add mileswang-skill@mileswang-skill",
     ):
         if command not in readme:

@@ -2,9 +2,11 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.1 只交付 Miles 原创的项目执行与内容创作方法；尚未存在的 X 插件、模型调用、MCP 服务和账号能力不在本版本中。
+当前稳定版本：[`v0.1.1`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.1.1)。
 
-## v0.1 包含什么
+它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.1.1 只交付 Miles 原创的项目执行与内容创作方法，以及可复现的集成和发布底盘；尚未存在的 X 插件、模型调用、MCP 服务和账号能力不在本版本中。
+
+## v0.1.1 包含什么
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
@@ -19,7 +21,7 @@
 先添加这个仓库提供的 marketplace，再安装其中唯一的插件：
 
 ```bash
-codex plugin marketplace add Add-Miles/mileswang-skill --ref main
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.1.1
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
@@ -67,11 +69,18 @@ cp templates/AGENTS.md ./AGENTS.miles.example.md
 │       ├── miles-project/
 │       └── miles-content/
 ├── templates/AGENTS.md
-├── tools/new_skill.py
+├── tools/
+│   ├── new_skill.py
+│   ├── validate.py
+│   ├── check_routing_contract.py
+│   └── build_release.py
+├── .github/workflows/
+│   ├── ci.yml
+│   └── release.yml
 └── tests/
 ```
 
-`marketplace.json` 只暴露一个插件。`mileswang` 是薄路由器；领域规则留在独立 Skill 中，避免入口随着功能增长变成巨型提示词。
+`marketplace.json` 只暴露一个插件。`mileswang` 是薄路由器；领域规则留在独立 Skill 中，避免入口随着功能增长变成巨型提示词。CI 会阻止版本漂移、未被主路由引用的孤儿 Skill、没有路由案例的叶子 Skill，以及不可复现的发布包进入稳定版本。
 
 ## 增加新的 Miles Skill
 
@@ -92,7 +101,27 @@ python3 tools/new_skill.py miles-example \
 
 脚手架只创建结构，不证明新 Skill 有用。完成实现、测试、许可证检查和真实路径验证后，才能随新版本发布。
 
-未来的 X 能力也遵循同一规则：只有真实代码、合法数据源、许可证、安全边界和可重复验收都存在时，才新增独立模块；v0.1 不预埋一个假的 `miles-x`。
+新增目录后还必须在 `mileswang` 主路由、README 能力表和 `tests/routing-cases.json` 中登记。以下命令会把这个约束作为可执行 Gate，而不是维护提醒：
+
+```bash
+python3 tools/check_routing_contract.py
+```
+
+未来的 X 能力也遵循同一规则：只有真实代码、合法数据源、许可证、安全边界和可重复验收都存在时，才新增独立模块；v0.1.1 不预埋一个假的 `miles-x`。
+
+## 维护与发布
+
+`VERSION` 是唯一版本输入。每次发布必须同步插件 manifest 和本页的稳定版本、安装 ref；CI 会拒绝不一致。完整本地 Gate：
+
+```bash
+python3 tools/validate.py
+python3 tools/check_routing_contract.py
+python3 -m unittest discover -s tests -p 'test_*.py'
+python3 tools/build_release.py --output-dir dist
+python3 -m zipfile -t dist/mileswang-skill-v0.1.1.zip
+```
+
+合并后的 `v*` tag 必须与 `VERSION` 完全一致。tag 工作流会重新执行这些 Gate，并只在全部通过后创建 GitHub Release 和可下载 zip。发布成功证明的是版本、路由、结构和分发链成立，不证明内容效果。
 
 ## 证据边界
 
