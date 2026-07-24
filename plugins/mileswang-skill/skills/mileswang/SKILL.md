@@ -35,6 +35,8 @@ Keep the decision fields conceptually separate:
 - **Miles layers:** always empty for an `internal` route; optional `miles-project` or `miles-content` governance only around an external executor, never a duplicate of the executor;
 - **reason:** one concrete sentence tied to the requested operation.
 
+For `unavailable` or `ambiguous`, both executor and Miles layers must be empty. Keep an unavailable requested name only in the reason, and keep tied active names only as candidates; neither state performs an operation.
+
 Simple direct answers bypass Skill routing. Do not expose the full decision schema unless the route is blocked, ambiguous, or the user asks for it.
 
 Do not scan `~/.codex/skills`, `~/.agents/skills`, `~/.claude/skills`, plugin caches, or configuration files to claim availability. Disk presence is not session availability.
