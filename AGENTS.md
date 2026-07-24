@@ -22,6 +22,7 @@ These instructions apply only to this repository. They do not replace a user's g
 - Local `PROJECT.md` contains private requirement evidence and is intentionally ignored. Never link or publish it.
 
 Keep the release version identical in `VERSION` and the plugin manifest. The marketplace must expose exactly one plugin named `mileswang-skill`.
+The README installation ref must pin the same `v<VERSION>` release tag. Never publish from a mutable `main` ref as the stable install path.
 
 ## Before changing the repository
 
@@ -73,12 +74,16 @@ Before claiming a release is ready:
 
 1. Parse all JSON files.
 2. Run `python3 tools/validate.py`.
-3. Run `python3 -m unittest discover -s tests -p 'test_*.py'`.
-4. Confirm every manifest path resolves inside the repository.
-5. Confirm `PROJECT.md` is ignored and not tracked.
-6. Scan tracked files for secrets, private absolute paths, account data, and unlicensed material.
-7. Test a clean local marketplace install.
-8. Exercise the three routing acceptance cases with fresh Agents and real representative inputs.
-9. For a public release, verify the unauthenticated GitHub URL and the exact published commit.
+3. Run `python3 tools/check_routing_contract.py`.
+4. Run `python3 -m unittest discover -s tests -p 'test_*.py'`.
+5. Build twice with `python3 tools/build_release.py` and confirm deterministic output.
+6. Confirm every manifest path resolves inside the repository.
+7. Confirm `PROJECT.md` is ignored and not tracked.
+8. Scan tracked files for secrets, private absolute paths, account data, and unlicensed material.
+9. Test a clean marketplace install from the exact release tag.
+10. Exercise the three routing acceptance cases with fresh Agents and real representative inputs.
+11. For a public release, verify the unauthenticated GitHub URL, exact published commit, tag, workflow run, and release asset.
+
+Every Miles-owned leaf Skill must be linked by `mileswang`, documented in the README capability table, and covered by at least one case in `tests/routing-cases.json`. A scaffolded but unregistered Skill is a release-blocking orphan.
 
 Structural checks, installation, and public visibility are intermediate evidence. State workflow usefulness only at the level proven by real use.

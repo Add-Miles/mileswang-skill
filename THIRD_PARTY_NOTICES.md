@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-`mileswang-skill` v0.1 is a clean-room implementation of Miles Wang's own project-execution and content-creation workflows.
+`mileswang-skill` v0.1.1 is a clean-room implementation of Miles Wang's own project-execution and content-creation workflows.
 
 No third-party Skill source code, prompt text, scripts, knowledge bases, media, model outputs, or private data are bundled in this release. Public projects below were inspected only to understand product structure and packaging conventions.
 
@@ -23,8 +23,9 @@ No third-party Skill source code, prompt text, scripts, knowledge bases, media, 
 ### dbskill
 
 - Upstream: <https://github.com/dontbesilent2025/dbskill>
-- License: <https://github.com/dontbesilent2025/dbskill/blob/main/LICENSE>
-- Use here: high-level observation of a router plus independent modules.
+- Inspected baseline: `v2.18.8` at commit `7d05ba5691dff5de339f6e3b601369688907b22e`.
+- License: <https://github.com/dontbesilent2025/dbskill/blob/7d05ba5691dff5de339f6e3b601369688907b22e/LICENSE>
+- Use here: high-level observation of a router plus independent modules and release-contract concepts.
 - Bundled material: none. `dbskill` is licensed under CC BY-NC 4.0; its content is not relicensed by this repository.
 
 ## Future integrations
