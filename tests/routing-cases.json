@@ -1,25 +1,217 @@
 {
-  "external_skills": [
-    "pdf"
+  "schema_version": 2,
+  "internal_skills": [
+    "miles-content",
+    "miles-project"
   ],
   "cases": [
     {
-      "id": "project-scope",
+      "id": "internal-project-scope",
       "request": "我有三个产品想法，帮我全部做出来。",
-      "expected_skill": "miles-project",
-      "must_show": ["single core task", "real input", "acceptance evidence"]
+      "requested_skill": null,
+      "active_skills": [
+        "miles-content",
+        "miles-project",
+        "pdf:pdf"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-project",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "single core task",
+        "real input",
+        "acceptance evidence"
+      ]
     },
     {
-      "id": "content-reduction",
+      "id": "internal-content-reduction",
       "request": "这是一段很长但没有具体场景的短视频稿，请帮我优化。",
-      "expected_skill": "miles-content",
-      "must_show": ["real scene", "conflict", "deleted filler"]
+      "requested_skill": null,
+      "active_skills": [
+        "miles-content",
+        "miles-project"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-content",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "real scene",
+        "conflict",
+        "deleted filler"
+      ]
     },
     {
-      "id": "specialist-pass-through",
-      "request": "Use the installed PDF skill to edit this PDF.",
-      "expected_skill": "pdf",
-      "must_not_route_to": ["miles-project", "miles-content"]
+      "id": "external-pdf-pass-through",
+      "request": "Use the installed `pdf:pdf` Skill to edit this PDF.",
+      "requested_skill": "pdf:pdf",
+      "active_skills": [
+        "miles-content",
+        "miles-project",
+        "pdf:pdf"
+      ],
+      "expected": {
+        "status": "external-available",
+        "executor": "pdf:pdf",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "pdf:pdf"
+      ],
+      "must_not_route_to": [
+        "miles-content",
+        "miles-project"
+      ]
+    },
+    {
+      "id": "external-github-with-project-layer",
+      "request": "Use `github:gh-fix-ci` to diagnose and fix this repository's failing GitHub Actions run.",
+      "requested_skill": "github:gh-fix-ci",
+      "active_skills": [
+        "github:gh-fix-ci",
+        "miles-content",
+        "miles-project"
+      ],
+      "expected": {
+        "status": "external-available",
+        "executor": "github:gh-fix-ci",
+        "miles_layers": [
+          "miles-project"
+        ],
+        "candidates": []
+      },
+      "must_show": [
+        "github:gh-fix-ci",
+        "miles-project"
+      ]
+    },
+    {
+      "id": "unavailable-explicit-skill",
+      "request": "Use `vendor:missing-skill` for this task.",
+      "requested_skill": "vendor:missing-skill",
+      "active_skills": [
+        "miles-content",
+        "miles-project"
+      ],
+      "expected": {
+        "status": "unavailable",
+        "executor": null,
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "unavailable",
+        "vendor:missing-skill"
+      ],
+      "must_not_route_to": [
+        "miles-content",
+        "miles-project"
+      ]
+    },
+    {
+      "id": "explicit-skill-is-incompatible",
+      "request": "Use `pdf:pdf` to deploy my website.",
+      "requested_skill": "pdf:pdf",
+      "active_skills": [
+        "miles-content",
+        "miles-project",
+        "pdf:pdf",
+        "vercel:deployments-cicd"
+      ],
+      "expected": {
+        "status": "external-available",
+        "executor": "vercel:deployments-cicd",
+        "miles_layers": [
+          "miles-project"
+        ],
+        "candidates": []
+      },
+      "must_show": [
+        "vercel:deployments-cicd",
+        "task fit"
+      ],
+      "must_not_route_to": [
+        "pdf:pdf"
+      ]
+    },
+    {
+      "id": "ambiguous-browser-owner",
+      "request": "Open this page in a browser, but I have not said which browser surface to use.",
+      "requested_skill": null,
+      "active_skills": [
+        "browser:control-in-app-browser",
+        "chrome:control-chrome",
+        "miles-content",
+        "miles-project"
+      ],
+      "expected": {
+        "status": "ambiguous",
+        "executor": null,
+        "miles_layers": [],
+        "candidates": [
+          "browser:control-in-app-browser",
+          "chrome:control-chrome"
+        ]
+      },
+      "must_show": [
+        "one deciding question"
+      ]
+    },
+    {
+      "id": "duplicate-canonical-name",
+      "request": "Use `general-video` for this video task.",
+      "requested_skill": "general-video",
+      "active_skills": [
+        "general-video",
+        "general-video",
+        "miles-content",
+        "miles-project"
+      ],
+      "expected": {
+        "status": "ambiguous",
+        "executor": null,
+        "miles_layers": [],
+        "candidates": [
+          "general-video"
+        ]
+      },
+      "must_show": [
+        "same canonical name",
+        "one deciding question"
+      ],
+      "must_not_route_to": [
+        "general-video"
+      ]
+    },
+    {
+      "id": "inactive-cache-is-unavailable",
+      "request": "Use `vendor:cached-only` because I can see it on disk.",
+      "requested_skill": "vendor:cached-only",
+      "active_skills": [
+        "miles-content",
+        "miles-project"
+      ],
+      "inactive_skills": [
+        "vendor:cached-only"
+      ],
+      "expected": {
+        "status": "unavailable",
+        "executor": null,
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "disk presence is not session availability"
+      ],
+      "must_not_route_to": [
+        "vendor:cached-only"
+      ]
     }
   ]
 }

@@ -65,7 +65,7 @@ Unit tests alone would be only partial evidence because the reported failure occ
 - [ ] Inspect the real inputs and existing project documents.
 - [ ] Record all five contract answers in one authority document.
 - [ ] Resolve every material implementation fork.
-- [ ] Check installed skills and relevant reusable implementations.
+- [ ] Check the host-provided active Skill catalog and relevant reusable public implementations.
 - [ ] Establish version authority for restore, migration, publication, deployment, replacement, rebuild, or deletion.
 - [ ] Protect a comparison baseline and rollback.
 - [ ] State one primary causal hypothesis.

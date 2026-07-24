@@ -1,8 +1,10 @@
 # Third-Party Notices
 
-`mileswang-skill` v0.1.1 is a clean-room implementation of Miles Wang's own project-execution and content-creation workflows.
+`mileswang-skill` v0.2.0 is a clean-room implementation of Miles Wang's own routing, project-execution, and content-creation workflows.
 
 No third-party Skill source code, prompt text, scripts, knowledge bases, media, model outputs, or private data are bundled in this release. Public projects below were inspected only to understand product structure and packaging conventions.
+
+Runtime references such as `pdf:pdf` or `github:gh-fix-ci` are canonical names used in simulated routing fixtures. They do not bundle, relicense, or claim ownership of the referenced Skills. Availability and licensing remain with the independently installed provider.
 
 ## Architecture references
 
