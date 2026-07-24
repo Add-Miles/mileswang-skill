@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "project-scope",
+      "request": "我有三个产品想法，帮我全部做出来。",
+      "expected_skill": "miles-project",
+      "must_show": ["single core task", "real input", "acceptance evidence"]
+    },
+    {
+      "id": "content-reduction",
+      "request": "这是一段很长但没有具体场景的短视频稿，请帮我优化。",
+      "expected_skill": "miles-content",
+      "must_show": ["real scene", "conflict", "deleted filler"]
+    },
+    {
+      "id": "specialist-pass-through",
+      "request": "Use the installed PDF skill to edit this PDF.",
+      "expected_skill": "pdf",
+      "must_not_route_to": ["miles-project", "miles-content"]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.env.*
+*.log
+*.tmp
+__pycache__/
+.pytest_cache/
+build/
+dist/
+
+# Local requirement authority contains machine-specific source evidence.
+/PROJECT.md
