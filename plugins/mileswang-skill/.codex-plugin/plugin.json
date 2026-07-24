@@ -1,0 +1,38 @@
+{
+  "name": "mileswang-skill",
+  "version": "0.1.0",
+  "description": "Scope vague projects into evidence-backed execution and turn content drafts into concrete, reduced work.",
+  "author": {
+    "name": "Miles Wang",
+    "url": "https://github.com/Add-Miles"
+  },
+  "homepage": "https://github.com/Add-Miles/mileswang-skill",
+  "repository": "https://github.com/Add-Miles/mileswang-skill",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "skills",
+    "project-execution",
+    "content-creation",
+    "evidence",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Miles Wang Skill",
+    "shortDescription": "Scope projects and cut content down to what works",
+    "longDescription": "A modular workflow collection for scoping vague requests, establishing version authority, executing against real inputs, verifying real paths, and revising content around concrete scenes and conflict.",
+    "developerName": "Miles Wang / Add-Miles",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/Add-Miles/mileswang-skill",
+    "defaultPrompt": [
+      "Help me turn this vague project into one scoped, verifiable delivery",
+      "Cut this content draft down to a real scene, a clear conflict, and supported claims"
+    ]
+  }
+}
