@@ -32,7 +32,7 @@ Determine one route decision before execution:
 Keep the decision fields conceptually separate:
 
 - **executor:** the exact canonical Skill name that performs the core operation, such as `pdf:pdf` or `github:gh-fix-ci`;
-- **Miles layers:** optional `miles-project` or `miles-content` governance applied around an external executor, never a duplicate of the executor;
+- **Miles layers:** always empty for an `internal` route; optional `miles-project` or `miles-content` governance only around an external executor, never a duplicate of the executor;
 - **reason:** one concrete sentence tied to the requested operation.
 
 Simple direct answers bypass Skill routing. Do not expose the full decision schema unless the route is blocked, ambiguous, or the user asks for it.

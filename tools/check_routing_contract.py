@@ -37,6 +37,7 @@ ROUTER_MARKERS = (
     "Do not scan",
     "same canonical name",
     "must not rediscover or replace it",
+    "always empty for an `internal` route",
 )
 PLAYBOOK_MARKERS = (
     "Runtime route contract",
