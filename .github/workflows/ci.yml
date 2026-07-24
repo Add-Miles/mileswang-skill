@@ -1,0 +1,39 @@
+name: Repository integrity
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate repository and routing contracts
+        run: |
+          python3 tools/validate.py
+          python3 tools/check_routing_contract.py
+
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Build and inspect deterministic release bundle
+        run: |
+          python3 tools/build_release.py --output-dir dist-one
+          python3 tools/build_release.py --output-dir dist-two
+          VERSION="$(tr -d '[:space:]' < VERSION)"
+          cmp \
+            "dist-one/mileswang-skill-v${VERSION}.zip" \
+            "dist-two/mileswang-skill-v${VERSION}.zip"
+          python3 -m zipfile -t "dist-one/mileswang-skill-v${VERSION}.zip"

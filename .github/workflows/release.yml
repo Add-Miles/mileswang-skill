@@ -1,0 +1,48 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify tag and repository contracts
+        run: |
+          VERSION="$(tr -d '[:space:]' < VERSION)"
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$TAG_VERSION" != "$VERSION" ]; then
+            echo "tag ${GITHUB_REF_NAME} does not match VERSION ${VERSION}" >&2
+            exit 1
+          fi
+          python3 tools/validate.py
+          python3 tools/check_routing_contract.py
+          python3 -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Build release bundle
+        run: |
+          python3 tools/build_release.py --output-dir dist
+          VERSION="$(tr -d '[:space:]' < VERSION)"
+          python3 -m zipfile -t "dist/mileswang-skill-v${VERSION}.zip"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="$(tr -d '[:space:]' < VERSION)"
+          gh release create "${GITHUB_REF_NAME}" \
+            --verify-tag \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes \
+            "dist/mileswang-skill-v${VERSION}.zip"
