@@ -1,7 +1,7 @@
 {
   "name": "mileswang-skill",
-  "version": "0.1.1",
-  "description": "Scope vague projects into evidence-backed execution and turn content drafts into concrete, reduced work.",
+  "version": "0.2.0",
+  "description": "Route work to the narrowest active Skill while keeping evidence-backed project and content workflows available.",
   "author": {
     "name": "Miles Wang",
     "url": "https://github.com/Add-Miles"
@@ -20,8 +20,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Miles Wang Skill",
-    "shortDescription": "Scope projects and cut content down to what works",
-    "longDescription": "A modular workflow collection for scoping vague requests, establishing version authority, executing against real inputs, verifying real paths, and revising content around concrete scenes and conflict.",
+    "shortDescription": "Route to the right active Skill and keep Miles guardrails",
+    "longDescription": "A modular workflow collection that routes each request to the narrowest currently active internal or external Skill, preserves third-party ownership, scopes vague projects, verifies real paths, and revises content around concrete scenes and conflict.",
     "developerName": "Miles Wang / Add-Miles",
     "category": "Productivity",
     "capabilities": [
@@ -31,6 +31,7 @@
     ],
     "websiteURL": "https://github.com/Add-Miles/mileswang-skill",
     "defaultPrompt": [
+      "Route this request to the narrowest currently active Skill and keep the exact executor name",
       "Help me turn this vague project into one scoped, verifiable delivery",
       "Cut this content draft down to a real scene, a clear conflict, and supported claims"
     ]

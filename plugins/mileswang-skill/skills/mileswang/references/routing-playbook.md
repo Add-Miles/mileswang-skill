@@ -14,12 +14,27 @@ Use this reference only when the primary skill is not obvious.
 
 ## Specialist discovery checklist
 
-- Check the currently installed skill catalog before creating anything.
-- Prefer an explicitly named and applicable skill.
+- Treat the current session's active Skill catalog as the availability authority. Do not infer availability from disk folders, plugin caches, or another session.
+- Prefer an explicitly named and applicable Skill only when its exact canonical name is active.
 - Prefer the narrowest skill with a real workflow over a broad brand router.
 - For reusable project capabilities, inspect mature public implementations when network access and scope permit.
 - Treat popularity as a discovery signal, not proof. Verify license, maintenance state, security, inputs, outputs, and fit before reuse.
 - Keep external attribution and identity intact.
+
+## Runtime route contract
+
+| Status | Executor | Miles layers | Required behavior |
+| --- | --- | --- | --- |
+| `internal` | Active `miles-project` or `miles-content` | None | Execute the bundled leaf. |
+| `external-available` | Exact active canonical name | Optional, separate from executor | Delegate the domain operation and preserve external identity. |
+| `unavailable` | None | None | Name the unavailable request and do not silently replace it. |
+| `ambiguous` | None | None | Name the tied candidates and ask one deciding question. |
+
+Canonical names may be unnamespaced (`miles-content`) or namespaced (`pdf:pdf`, `github:gh-fix-ci`). Preserve them exactly as the host exposes them.
+
+Disk presence is not session availability. A local directory, bridge, or cache entry that is absent from the active catalog must route as `unavailable`.
+
+If multiple active catalog entries expose the same canonical name and the host does not provide a unique callable identity, treat that name as a collision. Return `ambiguous` and stop; do not select by provider order, path order, or cache order. If the host does expose unique callable identities, preserve and use that exact host identity.
 
 ## Concrete routing examples
 
@@ -31,9 +46,11 @@ Input:
 
 Route:
 
-1. Select the installed deployment skill as the domain executor.
+1. Select the applicable deployment Skill from the active catalog as the domain executor.
 2. Apply `miles-project` because “newest” and “deploy” require version authority and rollback evidence.
 3. Stop before deployment if two plausible source versions remain.
+
+Decision shape: `external-available`; executor is the exact deployment Skill name; Miles layer is `miles-project`.
 
 ### Example: verbose short-video draft
 
@@ -43,7 +60,7 @@ Input:
 
 Route:
 
-1. Select a platform-specific script skill if one exists and applies.
+1. Select a platform-specific script Skill if it is active and applies.
 2. Otherwise select `miles-content` directly.
 3. Do not activate `miles-project`; the deliverable is a text revision, not a project mutation.
 
@@ -55,9 +72,57 @@ Input:
 
 Route:
 
-1. Select the installed browser or X specialist.
+1. Select the applicable browser or X specialist from the active catalog.
 2. Do not route to `miles-content` merely because the source is a social platform.
 3. Add `miles-project` only if the user is building or changing a reusable collection system.
+
+### Example: explicit external Skill
+
+Input:
+
+> Use `pdf:pdf` to edit this PDF.
+
+Route:
+
+1. Confirm `pdf:pdf` is in the active catalog and the operation is a PDF edit.
+2. Return `external-available` with executor `pdf:pdf` and no Miles layer.
+3. Delegate the work without copying or summarizing the external Skill into Miles-owned files.
+
+### Example: named but unavailable
+
+Input:
+
+> Use `vendor:missing-skill` for this task.
+
+Route:
+
+1. If the exact name is absent from the active catalog, return `unavailable`.
+2. Do not treat a cache or filesystem match as availability.
+3. Do not silently route to `miles-project` or `miles-content`.
+
+### Example: explicit but incompatible
+
+Input:
+
+> Use `pdf:pdf` to deploy my website.
+
+Route:
+
+1. Do not select `pdf:pdf`; explicit naming does not override task fit.
+2. Select an active deployment Skill if one clearly owns the operation and add `miles-project` as governance.
+3. If two deployment Skills remain equally suitable, return `ambiguous` and ask one deciding question.
+
+### Example: duplicate canonical name
+
+Input:
+
+> Use `general-video` for this video task.
+
+Route:
+
+1. The active catalog exposes two entries named `general-video` but no distinct callable identities.
+2. Return `ambiguous` with `general-video` as the colliding candidate.
+3. Do not choose one from its filesystem location or provider order; request the one host-level distinction needed to proceed.
 
 ## Handoff check
 

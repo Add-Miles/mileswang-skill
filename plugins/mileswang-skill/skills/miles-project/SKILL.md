@@ -29,7 +29,11 @@ Ask whether any unresolved item has two or more reasonable answers that would ch
 
 ## Reuse before creating
 
-Check installed skills before implementing a general capability. When network access and project scope permit, inspect mature, relevant public implementations before building a new one. Treat stars and popularity as discovery signals only. Verify license compatibility, maintenance state, security, actual input/output behavior, and fit before adopting code or workflows.
+Use the host-provided active Skill catalog as the only availability authority before implementing a general capability. When network access and project scope permit, inspect mature, relevant public implementations before building a new one. Treat stars and popularity as discovery signals only. Verify license compatibility, maintenance state, security, actual input/output behavior, and fit before adopting code or workflows.
+
+## Respect the router boundary
+
+When `mileswang` invokes this Skill, keep the selected executor unchanged. Do not rediscover or replace the selected executor from disk folders, plugin caches, local inventories, or configuration files.
 
 ## Establish version authority
 
