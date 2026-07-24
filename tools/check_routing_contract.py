@@ -38,6 +38,7 @@ ROUTER_MARKERS = (
     "same canonical name",
     "must not rediscover or replace it",
     "always empty for an `internal` route",
+    "both executor and Miles layers must be empty",
 )
 PLAYBOOK_MARKERS = (
     "Runtime route contract",
