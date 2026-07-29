@@ -14,6 +14,12 @@
       "evidence": "bundled-and-contract-tested"
     },
     {
+      "id": "ai-video-planning-and-review",
+      "state": "released-owned",
+      "executor": "miles-ai-video",
+      "evidence": "bundled-and-routing-contract-tested"
+    },
+    {
       "id": "x-methodology-analysis",
       "state": "candidate-owned",
       "executor": "miles-x-methodology",

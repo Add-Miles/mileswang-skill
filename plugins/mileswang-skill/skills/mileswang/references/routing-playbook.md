@@ -8,6 +8,7 @@ Use this reference only when the primary skill is not obvious.
 | --- | --- | --- | --- |
 | Build, fix, restore, migrate, release, deploy, or materially change a project | Narrowest applicable engineering or platform skill | `miles-project` | Establish scope, authority, and real-path evidence before claiming completion. |
 | Draft, script, post, title, article, or revision for an audience | Narrowest applicable platform or format skill, otherwise `miles-content` | `miles-content` | Preserve facts, find a real scene and conflict, and cut filler. |
+| Plan, adapt, or review an AI product demo or short video without rendering a new final cut | `miles-ai-video` | None | Return a concrete structure, shot list, proof moment, or timestamped review from verified material. |
 | Analyze supplied X material into first principles, methodology, transfer, and claim boundaries | `miles-x-methodology` | None | Use only the supplied and actually read evidence. |
 | Analyze an X URL whose content has not been retrieved | Matching active browser or research Skill | `miles-x-methodology` | The external executor acquires the source; the Miles layer analyzes only returned evidence. |
 | Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; the default path uses the pinned public local toolchain and no author API. |
@@ -28,7 +29,7 @@ Use this reference only when the primary skill is not obvious.
 
 | Status | Executor | Miles layers | Required behavior |
 | --- | --- | --- | --- |
-| `internal` | Active `miles-project` or `miles-content` | None | Execute the bundled leaf. |
+| `internal` | Active bundled Miles leaf | None | Execute the narrowest bundled leaf and preserve its trigger boundary. |
 | `external-available` | Exact active canonical name | Optional, separate from executor | Delegate the domain operation and preserve external identity. |
 | `unavailable` | None | None | Name the unavailable request and do not silently replace it. |
 | `ambiguous` | None | None | Name the tied candidates and ask one deciding question. |
@@ -106,6 +107,16 @@ Input contains one source video and asks Miles to package or AI-edit it.
    separately installed Skill or Miles credential is required.
 3. Stop on missing input, dependency, transcript, media, check, or preview
    approval. A generated composition is not a rendered final video.
+
+### Example: AI video plan or review
+
+Input asks for a 60-second product-demo shot plan, a reference adaptation, or a
+timestamped critique, but does not ask the system to render a new final cut.
+
+1. Select `miles-ai-video` as the internal planning or review owner.
+2. Require verified source material and identify one visible proof moment.
+3. Route to `miles-video-editing` instead when supplied footage must become a
+   newly rendered V10-style MP4.
 
 ### Example: explicit external Skill
 

@@ -2,6 +2,7 @@
   "schema_version": 2,
   "internal_skills": [
     "miles-content",
+    "miles-ai-video",
     "miles-project",
     "miles-x-methodology",
     "miles-video-editing"
@@ -13,6 +14,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology",
@@ -36,6 +38,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -57,6 +60,7 @@
       "request": "这是一个 X 帖子的完整正文和截图。分析博主的方法、底层因果、我能迁移的行动，以及不能直接相信的主张。",
       "requested_skill": null,
       "active_skills": [
+        "miles-ai-video",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -75,11 +79,35 @@
       ]
     },
     {
+      "id": "internal-ai-video-demo-plan",
+      "request": "把我的 AI 产品做成一个 60 秒演示视频，先给我镜头和剪辑方案。",
+      "requested_skill": null,
+      "active_skills": [
+        "miles-ai-video",
+        "miles-content",
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-ai-video",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "proof moment",
+        "shot list",
+        "verified source material"
+      ]
+    },
+    {
       "id": "external-x-acquisition-with-methodology-layer",
       "request": "分析这个 X 链接背后的方法论，但我只提供了 URL。",
       "requested_skill": null,
       "active_skills": [
         "browser:control-in-app-browser",
+        "miles-ai-video",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -107,6 +135,7 @@
         "hyperframes",
         "hyperframes-cli",
         "media-use",
+        "miles-ai-video",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -131,6 +160,7 @@
       "requested_skill": "pdf:pdf",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology",
@@ -157,6 +187,7 @@
       "active_skills": [
         "github:gh-fix-ci",
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -180,6 +211,7 @@
       "requested_skill": "vendor:missing-skill",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -205,6 +237,7 @@
       "requested_skill": "pdf:pdf",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology",
@@ -235,6 +268,7 @@
         "browser:control-in-app-browser",
         "chrome:control-chrome",
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -260,6 +294,7 @@
         "general-video",
         "general-video",
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -286,6 +321,7 @@
       "requested_skill": "vendor:cached-only",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
