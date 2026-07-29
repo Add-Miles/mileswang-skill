@@ -14,6 +14,12 @@
       "evidence": "bundled-and-contract-tested"
     },
     {
+      "id": "x-methodology-analysis",
+      "state": "candidate-owned",
+      "executor": "miles-x-methodology",
+      "evidence": "contract-tested-awaiting-real-session-and-user-acceptance"
+    },
+    {
       "id": "external-specialists",
       "state": "external-runtime",
       "executor": null,

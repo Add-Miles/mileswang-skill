@@ -9,7 +9,9 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-ALLOWED_STATES = {"released-owned", "external-runtime", "future-candidate"}
+ALLOWED_STATES = {
+    "released-owned", "candidate-owned", "external-runtime", "future-candidate"
+}
 ALLOWED_MODES = {"onboarding", "post-task"}
 
 
@@ -59,14 +61,14 @@ def validate_capability_map(repo_root: Path) -> list[str]:
             raise SystemContractError(f"invalid capability state: {state}")
         if not isinstance(evidence, str) or not evidence:
             raise SystemContractError(f"missing evidence for {capability_id}")
-        if state == "released-owned":
+        if state in {"released-owned", "candidate-owned"}:
             if not isinstance(executor, str) or not executor.startswith("miles-"):
                 raise SystemContractError(
-                    f"released-owned capability {capability_id} needs Miles executor"
+                    f"owned capability {capability_id} needs Miles executor"
                 )
             if not (skills_root / executor / "SKILL.md").is_file():
                 raise SystemContractError(
-                    f"released-owned executor is not bundled: {executor}"
+                    f"owned executor is not bundled: {executor}"
                 )
             owned_executors.add(executor)
         elif executor is not None:
@@ -81,7 +83,7 @@ def validate_capability_map(repo_root: Path) -> list[str]:
     }
     if owned_executors != bundled_leaves:
         raise SystemContractError(
-            "released-owned capability executors must equal bundled Miles leaves"
+            "owned capability executors must equal bundled Miles leaves"
         )
     return [f"{len(capabilities)} capability states", "owned capability parity"]
 
@@ -160,7 +162,7 @@ def validate_system_contract(repo_root: Path = REPO_ROOT) -> list[str]:
     ).read_text(encoding="utf-8")
     for marker in (
         "First-use onboarding", "Pre-task routing", "Post-task navigation",
-        "released-owned", "external-runtime", "future-candidate"
+        "released-owned", "candidate-owned", "external-runtime", "future-candidate"
     ):
         if marker not in router and marker not in behavior:
             raise SystemContractError(f"system instructions missing marker: {marker}")

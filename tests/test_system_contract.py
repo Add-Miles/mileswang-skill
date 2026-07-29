@@ -59,6 +59,19 @@ class SystemContractTests(unittest.TestCase):
             ):
                 SYSTEM.validate_capability_map(root)
 
+    def test_candidate_owned_is_not_released_owned(self) -> None:
+        path = (
+            REPO_ROOT / "plugins" / "mileswang-skill" / "skills" / "mileswang"
+            / "references" / "capability-map.json"
+        )
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        capability = next(
+            item for item in payload["capabilities"]
+            if item["executor"] == "miles-x-methodology"
+        )
+        self.assertEqual(capability["state"], "candidate-owned")
+        self.assertIn("awaiting-real-session", capability["evidence"])
+
     def test_post_task_case_requires_concrete_result(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

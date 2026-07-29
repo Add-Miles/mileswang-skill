@@ -37,6 +37,7 @@ Skills; every next route must depend on the actual current result.
 5. Load only the Miles module needed for the request:
    - Use [miles-project](../miles-project/SKILL.md) for building, changing, repairing, restoring, migrating, publishing, or deploying a project.
    - Use [miles-content](../miles-content/SKILL.md) for creating, diagnosing, or revising creator-facing content.
+   - Use [miles-x-methodology](../miles-x-methodology/SKILL.md) when real X post material must be analyzed into evidence-labeled first principles, methodology, transferable actions, and verification boundaries.
    - Use neither when the request is a direct question or belongs entirely to another specialist.
 
 Read the [routing playbook](references/routing-playbook.md) only when ownership is unclear, multiple tasks are mixed together, or a specialist skill must be combined with a Miles module.
@@ -49,11 +50,16 @@ availability catalog.
 
 - `released-owned` means this plugin contains the leaf and its integration
   contract passes.
+- `candidate-owned` means the branch contains and contract-tests the leaf, but
+  real-session usefulness or user acceptance is still missing; do not call it
+  released.
 - `external-runtime` means an independently maintained Skill may be delegated
   to only when its exact canonical name is in the current active Skill catalog.
 - `future-candidate` is a backlog hypothesis, never an executor.
 
-Never route to a future candidate. Never claim an external Skill is available
+Never route to a future candidate. A `candidate-owned` leaf can be exercised for
+acceptance on its implementation branch but must not be presented as a stable
+release. Never claim an external Skill is available
 because it appears in the capability map, on disk, or in another session.
 
 ## Resolve availability explicitly
@@ -68,7 +74,7 @@ Determine one route decision before execution:
 Keep the decision fields conceptually separate:
 
 - **executor:** the exact canonical Skill name that performs the core operation, such as `pdf:pdf` or `github:gh-fix-ci`;
-- **Miles layers:** always empty for an `internal` route; optional `miles-project` or `miles-content` governance only around an external executor, never a duplicate of the executor;
+- **Miles layers:** always empty for an `internal` route; optional bundled Miles governance or analysis around an external executor, never a duplicate of the executor. Use `miles-x-methodology` around a browser or research executor only when that executor must first acquire the real source material for the requested X analysis;
 - **reason:** one concrete sentence tied to the requested operation.
 
 For `unavailable` or `ambiguous`, both executor and Miles layers must be empty. Keep an unavailable requested name only in the reason, and keep tied active names only as candidates; neither state performs an operation.
@@ -93,6 +99,7 @@ Do not scan `~/.codex/skills`, `~/.agents/skills`, `~/.claude/skills`, plugin ca
 - Once an executor is selected, a Miles layer must not rediscover or replace it.
 - Add `miles-project` as a governance layer only when the work changes a project, has an ambiguous target, or involves restoration, migration, publication, or deployment.
 - Add `miles-content` only when the deliverable itself is creator-facing content.
+- Add `miles-x-methodology` around an external acquisition executor only for URL-only X methodology requests; after acquisition it analyzes the returned evidence and does not replace the acquisition executor.
 - Do not rename, copy, paraphrase, or present a third-party skill as a Miles-owned capability.
 - Do not invent an internal module for a capability that has no real implementation, license basis, input, and acceptance path.
 - Calling a Skill supplied independently outside this plugin is delegation, not redistribution. Never copy its prompt, code, assets, local data, or credentials into this plugin.

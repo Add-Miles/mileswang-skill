@@ -42,11 +42,14 @@ name alone as the navigation signal. The prior result is the main evidence.
 
 The capability map has three states:
 
-- `released-owned`: original Miles capability shipped in this plugin.
+- `released-owned`: original Miles capability shipped in a stable plugin release.
+- `candidate-owned`: implemented and contract-tested on a development branch,
+  but still awaiting real-session evidence or explicit user acceptance.
 - `external-runtime`: delegation class whose concrete members vary by session.
 - `future-candidate`: possible original capability that has not passed the
   contribution gate.
 
-A future candidate becomes released only in a separate iteration with a real
+A future candidate first becomes `candidate-owned` after implementation and
+contract tests. It becomes `released-owned` only in a separate iteration with a real
 input, accepted output or Golden Sample, bounded trigger, source and license
 authority, negative cases, and a real-path verification result.
