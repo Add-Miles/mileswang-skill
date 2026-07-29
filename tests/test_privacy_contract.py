@@ -31,6 +31,20 @@ class PrivacyIdentityTests(unittest.TestCase):
                 ["c" * 40 + "\x00" + noreply + "\x00" + private]
             )
 
+    def test_rejects_private_annotated_tag_identity(self) -> None:
+        private = "private-tagger" + "@" + "example.com"
+        noreply = "123+Public-Brand" + "@" + "users.noreply.github.com"
+        PRIVACY.validate_tagger_lines(
+            ["tag\x00refs/tags/v1.0.0\x00<" + noreply + ">"]
+        )
+        with self.assertRaises(PRIVACY.PrivacyContractError):
+            PRIVACY.validate_tagger_lines(
+                ["tag\x00refs/tags/v1.0.0\x00<" + private + ">"]
+            )
+        PRIVACY.validate_tagger_lines(
+            ["commit\x00refs/tags/lightweight\x00"]
+        )
+
     def test_current_skill_contract_passes_without_history(self) -> None:
         checks = PRIVACY.validate_privacy_contract(check_history=False)
         self.assertTrue(any("privacy gate" in check for check in checks))

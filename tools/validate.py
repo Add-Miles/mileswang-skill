@@ -30,20 +30,15 @@ EMAIL_RE = re.compile(
 PUBLIC_EMAIL_RE = re.compile(r"^[^@\s]+@users\.noreply\.github\.com$")
 PUBLIC_PROTOCOL_IDENTITIES = {"git@github.com"}
 PHONE_RE = re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")
-PUBLISH_SCAN_ROOTS = (
-    "README.md",
-    "THIRD_PARTY_NOTICES.md",
-    "AGENTS.md",
-    "LICENSE",
-    "VERSION",
-    "templates",
-    ".github",
-    ".agents",
-    "plugins",
-    "tools",
-    "tests",
-)
-IGNORED_PUBLIC_PARTS = {".git", "__pycache__", ".pytest_cache", ".DS_Store"}
+IGNORED_PUBLIC_PARTS = {
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".DS_Store",
+    "build",
+    "dist",
+}
+LOCAL_ONLY_FILES = {"PROJECT.md"}
 
 
 class ValidationError(Exception):
@@ -102,15 +97,14 @@ def validate_links(path: Path, text: str) -> None:
 
 
 def iter_public_files(repo_root: Path) -> Iterable[Path]:
-    for relative in PUBLISH_SCAN_ROOTS:
-        candidate = repo_root / relative
-        if candidate.is_file():
-            yield candidate
-        elif candidate.is_dir():
-            for path in candidate.rglob("*"):
-                relative_parts = set(path.relative_to(repo_root).parts)
-                if path.is_file() and not (relative_parts & IGNORED_PUBLIC_PARTS):
-                    yield path
+    for path in repo_root.rglob("*"):
+        relative = path.relative_to(repo_root)
+        if relative.as_posix() in LOCAL_ONLY_FILES:
+            continue
+        if set(relative.parts) & IGNORED_PUBLIC_PARTS:
+            continue
+        if path.is_file():
+            yield path
 
 
 def scan_public_files(repo_root: Path) -> None:

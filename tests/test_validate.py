@@ -72,6 +72,21 @@ class PrivacyScanTests(unittest.TestCase):
             (root / "README.md").write_text("public source\n", encoding="utf-8")
             VALIDATE.scan_public_files(root)
 
+    def test_scans_new_root_level_public_files(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            private_email = "private" + "@" + "example.com"
+            (root / "NEW_PUBLIC_FILE.md").write_text(private_email, encoding="utf-8")
+            with self.assertRaisesRegex(VALIDATE.ValidationError, "private email"):
+                VALIDATE.scan_public_files(root)
+
+    def test_ignores_local_requirement_authority(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            private_email = "private" + "@" + "example.com"
+            (root / "PROJECT.md").write_text(private_email, encoding="utf-8")
+            VALIDATE.scan_public_files(root)
+
 
 class ReleaseContractTests(unittest.TestCase):
     def test_accepts_matching_version_and_pinned_readme(self) -> None:

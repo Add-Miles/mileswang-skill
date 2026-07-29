@@ -54,6 +54,9 @@ codex plugin add mileswang-skill@mileswang-skill
 
 ### 更新已安装的 Skill
 
+`v0.3.0` 及更早版本不包含更新器，必须先手动执行上面的 `v0.4.0`
+安装命令完成一次迁移。从 `v0.4.0` 开始，后续更新才可以直接说：
+
 安装包含 `miles-update` 的稳定版本后，直接说：
 
 ```text
@@ -241,6 +244,8 @@ python3 tools/check_routing_contract.py
 python3 tools/check_system_contract.py
 python3 tools/check_x_methodology_contract.py
 python3 tools/check_video_v10_contract.py
+python3 tools/check_update_contract.py
+python3 tools/check_privacy_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
 python3 -m zipfile -t dist/mileswang-skill-v0.4.0.zip

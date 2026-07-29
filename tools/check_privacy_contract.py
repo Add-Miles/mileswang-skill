@@ -63,6 +63,44 @@ def history_identity_lines(repo: Path = REPO) -> list[str]:
     return [line for line in completed.stdout.splitlines() if line]
 
 
+def validate_tagger_lines(lines: list[str]) -> None:
+    invalid: list[str] = []
+    for line in lines:
+        parts = line.rstrip("\n").split("\x00")
+        if len(parts) != 3:
+            invalid.append("malformed tag record")
+            continue
+        object_type, refname, raw_email = parts
+        if object_type != "tag":
+            continue
+        email = raw_email.strip().removeprefix("<").removesuffix(">")
+        if not NOREPLY_RE.fullmatch(email):
+            invalid.append(refname or "unknown tag")
+    if invalid:
+        raise PrivacyContractError(
+            "annotated Git tags contain non-noreply tagger metadata: "
+            + ", ".join(sorted(set(invalid)))
+        )
+
+
+def history_tagger_lines(repo: Path = REPO) -> list[str]:
+    completed = subprocess.run(
+        [
+            "git",
+            "for-each-ref",
+            "refs/tags",
+            "--format=%(objecttype)%00%(refname)%00%(taggeremail)",
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise PrivacyContractError("could not inspect Git tagger identities")
+    return [line for line in completed.stdout.splitlines() if line]
+
+
 def validate_privacy_contract(repo: Path = REPO, check_history: bool = True) -> list[str]:
     reference = (repo / PRIVACY_REFERENCE.relative_to(REPO)).read_text(
         encoding="utf-8"
@@ -85,10 +123,13 @@ def validate_privacy_contract(repo: Path = REPO, check_history: bool = True) -> 
         raise PrivacyContractError("\n".join(errors))
     if check_history:
         validate_identity_lines(history_identity_lines(repo))
+        validate_tagger_lines(history_tagger_lines(repo))
     return [
         "public brand allowlist and protected-data boundary",
         f"privacy gate in {len(list(skills_root.glob('*/SKILL.md')))} Skills",
-        "reachable Git identities use GitHub noreply" if check_history else "history scan deferred",
+        "reachable commit and tag identities use GitHub noreply"
+        if check_history
+        else "history scan deferred",
     ]
 
 
