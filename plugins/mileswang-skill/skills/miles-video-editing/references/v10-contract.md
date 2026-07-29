@@ -25,6 +25,9 @@ The result is a semantic explanation system over real talking-head footage:
   entrance is appropriate; event timing still remains inside its owning beat.
 - Events on one lane never overlap. Auxiliary events may not use `lower` slot,
   which is reserved for captions.
+- A beat may set a project-specific `top` position after inspecting real source
+  frames. This is how the card avoids watermarks, faces, and embedded captions;
+  placement must not be hard-coded from another person's video.
 - Real-media requests use `provided`, `reconstructed`, or `missing`. Only
   actually read media can be `provided`; `missing` required media is blocking.
 

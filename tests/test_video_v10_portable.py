@@ -65,7 +65,7 @@ class PortableV10Tests(unittest.TestCase):
             "source": {"duration": duration, "sha256": manifest["source"]["sha256"]},
             "output": {"width": 1080, "height": 1920, "fps": 30},
             "beats": [
-                {"id": "beat-1", "start": 0, "end": duration, "lane": "beats", "claim": "执行路径需要真实产物", "kicker": "PATH TEST", "title": "不是返回成功就算完成", "detail": "必须生成、检查并探测真实视频。", "tags": ["输入", "执行", "验收"], "treatment": "semantic-card", "slot": "left", "reason": "把三个步骤压缩成可检查关系"}
+                {"id": "beat-1", "start": 0, "end": duration, "lane": "beats", "claim": "执行路径需要真实产物", "kicker": "PATH TEST", "title": "不是返回成功就算完成", "detail": "必须生成、检查并探测真实视频。", "tags": ["输入", "执行", "验收"], "treatment": "semantic-card", "slot": "left", "top": 180, "reason": "把三个步骤压缩成可检查关系"}
             ],
             "captions": [
                 {"id": "cap-1", "start": 0, "end": duration / 2, "lane": "caption-1", "text": "这是匿名测试句。"},
@@ -117,7 +117,11 @@ class PortableV10Tests(unittest.TestCase):
             page = (composition / "index.html").read_text()
             self.assertIn("data-composition-id=\"miles-v10\"", page)
             self.assertIn("data-no-timeline", page)
+            self.assertIn("#c9ffe9", page)
+            self.assertIn("style=\"top:180px\"", page)
+            self.assertIn("treatment-semantic-card", page)
             self.assertIn("el.animate", page)
+            self.assertNotIn("opacity:0", page)
             self.assertNotIn("gsap", page.lower())
             self.assertNotIn("/" + "Users/", page)
             self.assertTrue((composition / "assets/input.mp4").is_file())
