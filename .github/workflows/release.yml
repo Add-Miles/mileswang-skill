@@ -31,6 +31,7 @@ jobs:
           python3 tools/check_system_contract.py
           python3 tools/check_x_methodology_contract.py
           python3 tools/check_video_v10_contract.py
+          python3 tools/check_update_contract.py
           python3 -m unittest discover -s tests -p 'test_*.py' -v
 
       - name: Build release bundle

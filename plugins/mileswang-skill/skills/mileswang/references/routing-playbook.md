@@ -12,6 +12,7 @@ Use this reference only when the primary skill is not obvious.
 | Analyze supplied X material into first principles, methodology, transfer, and claim boundaries | `miles-x-methodology` | None | Use only the supplied and actually read evidence. |
 | Analyze an X URL whose content has not been retrieved | Matching active browser or research Skill | `miles-x-methodology` | The external executor acquires the source; the Miles layer analyzes only returned evidence. |
 | Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; the default path uses the pinned public local toolchain and no author API. |
+| Check or install a newer stable Miles plugin release | `miles-update` | None | Update only the official Miles marketplace/plugin, preserve unrelated plugins, and activate in a new conversation. |
 | Browser, spreadsheet, image, video, document, API, or platform-specific operation | Matching specialist skill | Add a Miles layer only if the deliverable also meets its trigger | Do not make `mileswang` perform the specialist procedure. |
 | Explanation, translation, lookup, or small factual answer | Direct answer or matching research skill | None by default | Do not force a project contract onto a simple request. |
 | Two independent deliverables | One owner or agent per deliverable | Apply per task | Do not hide two tasks inside one vague execution plan. |
@@ -117,6 +118,16 @@ timestamped critique, but does not ask the system to render a new final cut.
 2. Require verified source material and identify one visible proof moment.
 3. Route to `miles-video-editing` instead when supplied footage must become a
    newly rendered V10-style MP4.
+
+### Example: explicit Miles update
+
+Input says `更新 mileswang` or asks to upgrade the installed Miles workflows.
+
+1. Select `miles-update` as the internal executor.
+2. Resolve only the latest published stable release from the official public
+   repository; do not track `main` or upgrade all marketplaces.
+3. Update only `mileswang-skill`, roll back on failure, and tell the user to
+   open a new conversation before expecting the new catalog.
 
 ### Example: explicit external Skill
 
