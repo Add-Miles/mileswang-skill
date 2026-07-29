@@ -16,6 +16,7 @@ Act as a thin router. Do not turn this skill into an all-purpose executor.
 5. Load only the Miles module needed for the request:
    - Use [miles-project](../miles-project/SKILL.md) for building, changing, repairing, restoring, migrating, publishing, or deploying a project.
    - Use [miles-content](../miles-content/SKILL.md) for creating, diagnosing, or revising creator-facing content.
+   - Use [miles-ai-video](../miles-ai-video/SKILL.md) for planning, adapting, or reviewing AI-assisted short videos and demo videos from verified source material.
    - Use neither when the request is a direct question or belongs entirely to another specialist.
 
 Read the [routing playbook](references/routing-playbook.md) only when ownership is unclear, multiple tasks are mixed together, or a specialist skill must be combined with a Miles module.

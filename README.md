@@ -14,6 +14,14 @@
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
 
+## main 分支新增能力
+
+| Skill | 何时使用 | 产出 |
+| --- | --- | --- |
+| `miles-ai-video` | AI 产品演示视频、参考视频改编、口播脚本转剪辑方案，或检查已剪视频哪里没讲清楚 | 30-90 秒视频结构、镜头清单、屏幕证据、字幕/口播点和可验证剪辑检查 |
+
+`miles-ai-video` 已进入 `main`，但还没有打成新的稳定 release。安装命令仍然 pin 到当前稳定版 `v0.2.0`；要在正式插件安装中使用它，需要后续发布新的 `v*` tag。
+
 仓库还提供一份可移植的 [`templates/AGENTS.md`](templates/AGENTS.md)。它是可选的项目规则模板，安装插件不会自动覆盖你现有的全局或项目级 `AGENTS.md`。
 
 ## 安装
@@ -53,7 +61,7 @@ codex plugin add mileswang-skill@mileswang-skill
 
 路由只认宿主提供的 active Skill catalog：
 
-- `internal`：使用 `miles-project` 或 `miles-content`；
+- `internal`：使用 `miles-project`、`miles-content` 或 `miles-ai-video`；
 - `external-available`：使用当前会话真实可用的外部 Skill，并保留完整规范名，例如 `pdf:pdf`、`github:gh-fix-ci`；
 - `unavailable`：用户点名的 Skill 当前不可用，不静默替换；
 - `ambiguous`：多个 active Skill 同样适用，或同一规范名对应多个不可区分的宿主条目；只问一个能决定归属的问题。

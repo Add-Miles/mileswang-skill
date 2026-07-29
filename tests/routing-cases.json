@@ -2,6 +2,7 @@
   "schema_version": 2,
   "internal_skills": [
     "miles-content",
+    "miles-ai-video",
     "miles-project"
   ],
   "cases": [
@@ -11,6 +12,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "pdf:pdf"
       ],
@@ -32,6 +34,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project"
       ],
       "expected": {
@@ -47,11 +50,33 @@
       ]
     },
     {
+      "id": "internal-ai-video-demo-plan",
+      "request": "把我的 AI 产品做成一个 60 秒演示视频，先给我镜头和剪辑方案。",
+      "requested_skill": null,
+      "active_skills": [
+        "miles-ai-video",
+        "miles-content",
+        "miles-project"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-ai-video",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "proof moment",
+        "shot list",
+        "verified source material"
+      ]
+    },
+    {
       "id": "external-pdf-pass-through",
       "request": "Use the installed `pdf:pdf` Skill to edit this PDF.",
       "requested_skill": "pdf:pdf",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "pdf:pdf"
       ],
@@ -76,6 +101,7 @@
       "active_skills": [
         "github:gh-fix-ci",
         "miles-content",
+        "miles-ai-video",
         "miles-project"
       ],
       "expected": {
@@ -97,6 +123,7 @@
       "requested_skill": "vendor:missing-skill",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project"
       ],
       "expected": {
@@ -120,6 +147,7 @@
       "requested_skill": "pdf:pdf",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project",
         "pdf:pdf",
         "vercel:deployments-cicd"
@@ -148,6 +176,7 @@
         "browser:control-in-app-browser",
         "chrome:control-chrome",
         "miles-content",
+        "miles-ai-video",
         "miles-project"
       ],
       "expected": {
@@ -171,6 +200,7 @@
         "general-video",
         "general-video",
         "miles-content",
+        "miles-ai-video",
         "miles-project"
       ],
       "expected": {
@@ -195,6 +225,7 @@
       "requested_skill": "vendor:cached-only",
       "active_skills": [
         "miles-content",
+        "miles-ai-video",
         "miles-project"
       ],
       "inactive_skills": [
