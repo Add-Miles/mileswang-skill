@@ -37,7 +37,10 @@ def main() -> int:
         if re.search(pattern, text):
             print(f"FAIL: private path pattern {pattern}", file=sys.stderr)
             return 1
-    for marker in ("preflight", "render_started", "storyboard", "preview", "candidate", "0.7.81"):
+    for marker in (
+        "preflight", "setup", "transcribe", "render_started", "storyboard",
+        "preview", "candidate", "api_key_required", "0.7.81",
+    ):
         if marker not in text:
             print(f"FAIL: missing contract marker {marker}", file=sys.stderr)
             return 1

@@ -2,11 +2,11 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前公开稳定版本仍是 [`v0.2.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.2.0)。本分支已形成待发布 `v0.3.0`；发布后地址为 [`v0.3.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.3.0)，目前不得把该链接视为已上线证据。
+当前稳定版本：[`v0.3.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.3.0)。
 
-它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。待发布 v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
+它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
 
-## 待发布 v0.3.0 包含什么
+## v0.3.0 包含什么
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
@@ -20,7 +20,7 @@
 
 `mileswang-skill` 的长期能力分成两类，不能混为一谈：
 
-- **Miles 自有能力**：由 Miles 定义、验证和发布。待发布 v0.3.0 包括 `miles-project`、`miles-content` 和已验收的 `miles-video-editing`；`miles-x-methodology` 仍是候选，完成真实新会话与 Miles 内容验收前不算稳定发布。
+- **Miles 自有能力**：由 Miles 定义、验证和发布。v0.3.0 包括 `miles-project`、`miles-content` 和已验收的 `miles-video-editing`；`miles-x-methodology` 仍是候选，完成真实新会话与 Miles 内容验收前不算稳定发布。
 - **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
 
 路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。
@@ -39,7 +39,7 @@
 
 ## 安装
 
-v0.3.0 发布后，使用下面的固定 tag 安装。发布前继续使用公开 v0.2.0，不要把本分支候选命令当成已上线入口：
+使用固定 tag 安装：
 
 ```bash
 codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.3.0
@@ -49,6 +49,21 @@ codex plugin add mileswang-skill@mileswang-skill
 安装后重启 ChatGPT 桌面端或重新打开 Codex 会话，使插件目录刷新。
 
 安装只证明插件已进入本地目录，不证明它已经替你完成任何项目或提升任何内容表现。实际效果必须用真实输入和真实产出验证。
+
+### 剪视频的本地依赖
+
+`miles-video-editing` 不使用 Miles 的 API、API Key、账号或私有服务，也
+不要求额外安装 `media-use`、`hyperframes` 或 `hyperframes-cli` Skill。
+
+第一次剪视频前，本机需要 Python 3.10+、Node.js 22+、npm/npx、FFmpeg
+和 ffprobe。Skill 会先离线检查这些条件；经用户明确同意后，只在当前
+视频项目内安装固定版本的公开 `hyperframes@0.7.81`，并按需下载浏览器
+和本地 Whisper 模型。转写、检查与渲染都在用户自己的机器上完成，不
+需要任何 API Key。
+
+首次安装 npm 包、浏览器、字体或模型会访问公开依赖源，可能产生网络
+流量和磁盘占用；这不等于调用 Miles API。marketplace 清单中的安装期
+策略字段也不代表存在 Miles 登录或认证服务，本仓库没有认证端点。
 
 ## 怎么使用
 
@@ -74,7 +89,7 @@ codex plugin add mileswang-skill@mileswang-skill
 我要发布这个项目。先确认唯一权威版本、回退位置和真实验收路径，再执行。
 ```
 
-如果任务明确属于某个模块，也可以直接点名对应叶子。`miles-video-editing` 拥有 Miles 的 V10 方法，但转写与 HyperFrames 执行仍由当前会话真实可用的外部专业 Skill 完成并保留原名。
+如果任务明确属于某个模块，也可以直接点名对应叶子。`miles-video-editing` 拥有 Miles 的 V10 方法，并默认使用项目内固定版本的公开本地工具链完成转写和渲染；只有用户明确指定其他 active Skill 时才委托外部执行，并保留其原名。
 
 ## 路由其他作者的 Skill
 

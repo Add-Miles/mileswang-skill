@@ -7,7 +7,6 @@ import argparse
 import hashlib
 import html
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -133,7 +132,11 @@ def preflight(args: argparse.Namespace) -> int:
             blockers.append(str(exc))
     else:
         blockers.append("input video")
-    setup.extend(["active timestamped transcription executor", "active hyperframes", "active hyperframes-cli"])
+    setup.extend([
+        f"project-local hyperframes@{PIN}",
+        "HyperFrames managed browser",
+        "local Whisper model on first transcription",
+    ])
     payload = {
         "status": "blocked" if blockers else "setup_required",
         "render_started": False,
@@ -181,6 +184,152 @@ def init_project(args: argparse.Namespace) -> int:
     }
     (project / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     emit({"status": "initialized", "project": str(project), "source_sha256": sha})
+    return 0
+
+
+def setup_project(args: argparse.Namespace) -> int:
+    project = Path(args.project_dir).expanduser().resolve(strict=True)
+    manifest = load_manifest(project)
+    toolchain = inside(project, "work/toolchain")
+    toolchain.mkdir(parents=True, exist_ok=True)
+    package = {
+        "private": True,
+        "description": "Project-local public toolchain for Miles V10 editing",
+        "devDependencies": {"hyperframes": PIN},
+    }
+    (toolchain / "package.json").write_text(
+        json.dumps(package, indent=2) + "\n", encoding="utf-8"
+    )
+    npm = shutil.which("npm")
+    if not npm:
+        raise ContractError("npm is unavailable")
+    install = run([
+        npm, "install", "--prefix", str(toolchain), "--ignore-scripts",
+        "--no-audit", "--no-fund",
+    ])
+    if install.returncode:
+        raise ContractError(f"public npm setup failed: {install.stderr.strip()}")
+    binary = toolchain / "node_modules" / ".bin" / "hyperframes"
+    if not binary.is_file():
+        raise ContractError("pinned HyperFrames executable was not installed")
+    browser = run([str(binary), "browser", "ensure"])
+    if browser.returncode:
+        raise ContractError(f"HyperFrames browser setup failed: {browser.stderr.strip()}")
+    manifest["status"] = "toolchain-ready"
+    manifest["hyperframes_pin"] = PIN
+    manifest["executors"] = {
+        "transcription": "project-local-hyperframes-whisper",
+        "composition": "miles-video-editing",
+        "render": "project-local-hyperframes",
+    }
+    (project / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    emit({
+        "status": "toolchain-ready",
+        "hyperframes_pin": PIN,
+        "api_key_required": False,
+        "toolchain": "work/toolchain",
+    }, args.json)
+    return 0
+
+
+def write_raw_whisper_srt(
+    project: Path,
+    source: Path,
+    destination: Path,
+    language: str,
+    model: str,
+) -> bool:
+    whisper = shutil.which("whisper-cli")
+    ffmpeg = shutil.which("ffmpeg")
+    model_path = Path.home() / ".cache" / "hyperframes" / "whisper" / "models" / f"ggml-{model}.bin"
+    if not whisper or not ffmpeg or not model_path.is_file():
+        return False
+    work = inside(project, "work/transcription")
+    work.mkdir(parents=True, exist_ok=True)
+    audio = work / "audio.wav"
+    extract = run([
+        ffmpeg, "-hide_banner", "-loglevel", "error", "-i", str(source),
+        "-vn", "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le",
+        "-y", str(audio),
+    ])
+    if extract.returncode:
+        raise ContractError(f"local transcription audio extraction failed: {extract.stderr.strip()}")
+    prefix = work / "whisper"
+    result = run([
+        whisper, "-m", str(model_path), "-l", language, "-oj", "-of",
+        str(prefix), "-np", str(audio),
+    ])
+    if result.returncode:
+        raise ContractError(f"whisper-cli failed: {result.stderr.strip()}")
+    raw_path = prefix.with_suffix(".json")
+    raw = json.loads(raw_path.read_text(encoding="utf-8"))
+    segments = raw.get("transcription", [])
+    if not segments:
+        raise ContractError("whisper-cli returned no speech segments")
+    blocks: list[str] = []
+    for index, segment in enumerate(segments, start=1):
+        text = str(segment.get("text", "")).strip()
+        timestamps = segment.get("timestamps", {})
+        start, end = timestamps.get("from"), timestamps.get("to")
+        if not text or "\ufffd" in text or not start or not end:
+            raise ContractError("local transcript contains invalid text or timestamps")
+        blocks.append(f"{index}\n{start} --> {end}\n{text}")
+    destination.write_text("\n\n".join(blocks) + "\n", encoding="utf-8")
+    return True
+
+
+def transcribe_project(args: argparse.Namespace) -> int:
+    project = Path(args.project_dir).expanduser().resolve(strict=True)
+    manifest = load_manifest(project)
+    binary = inside(
+        project, "work/toolchain/node_modules/.bin/hyperframes", must_exist=True
+    )
+    source = inside(project, manifest["paths"]["source"], must_exist=True)
+    result = run([
+        str(binary), "transcribe", str(source), "--engine", "whisper",
+        "--model", args.model, "--language", args.language,
+        "--dir", str(project), "--json",
+    ])
+    if result.returncode:
+        raise ContractError(f"local transcription failed: {result.stderr.strip()}")
+    try:
+        payload = json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        raise ContractError("local transcription returned invalid JSON") from exc
+    if not payload.get("ok") or not payload.get("transcriptPath"):
+        raise ContractError(f"local transcription failed: {payload.get('error', 'unknown error')}")
+    transcript_json = Path(payload["transcriptPath"]).resolve(strict=True)
+    try:
+        transcript_json.relative_to(project)
+    except ValueError as exc:
+        raise ContractError("transcription output escaped the project") from exc
+    srt = inside(project, manifest["paths"]["transcript"])
+    used_raw_cli = write_raw_whisper_srt(
+        project, source, srt, args.language, args.model
+    )
+    if not used_raw_cli:
+        export = run([
+            str(binary), "transcribe", str(transcript_json), "--to", "srt",
+            "--output", str(srt), "--preserve-cues", "--dir", str(project),
+        ])
+        if export.returncode:
+            raise ContractError(f"SRT export failed: {export.stderr.strip()}")
+    if not srt.is_file() or not srt.read_text(encoding="utf-8").strip():
+        raise ContractError("SRT export produced no transcript")
+    if "\ufffd" in srt.read_text(encoding="utf-8"):
+        raise ContractError(
+            "local transcript contains replacement characters; provide a reviewed SRT or authorize another executor"
+        )
+    emit({
+        "status": "transcribed-local",
+        "engine": "whisper-cli" if used_raw_cli else "hyperframes-whisper",
+        "model": args.model,
+        "language": args.language,
+        "api_key_required": False,
+        "transcript": manifest["paths"]["transcript"],
+    }, args.json)
     return 0
 
 
@@ -345,6 +494,14 @@ def parser() -> argparse.ArgumentParser:
     init = commands.add_parser("init")
     init.add_argument("--input", required=True)
     init.add_argument("--project-dir", required=True)
+    setup = commands.add_parser("setup")
+    setup.add_argument("--project-dir", required=True)
+    setup.add_argument("--json", action="store_true")
+    transcribe = commands.add_parser("transcribe")
+    transcribe.add_argument("--project-dir", required=True)
+    transcribe.add_argument("--language", default="zh")
+    transcribe.add_argument("--model", default="small")
+    transcribe.add_argument("--json", action="store_true")
     val = commands.add_parser("validate")
     val.add_argument("--project-dir", required=True)
     val.add_argument("--json", action="store_true")
@@ -359,7 +516,15 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    handlers = {"preflight": preflight, "init": init_project, "validate": validate_command, "build": build_command, "verify": verify_command}
+    handlers = {
+        "preflight": preflight,
+        "init": init_project,
+        "setup": setup_project,
+        "transcribe": transcribe_project,
+        "validate": validate_command,
+        "build": build_command,
+        "verify": verify_command,
+    }
     try:
         return handlers[args.command](args)
     except (ContractError, OSError, ValueError, json.JSONDecodeError) as exc:

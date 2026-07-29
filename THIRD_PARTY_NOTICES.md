@@ -1,12 +1,23 @@
 # Third-Party Notices
 
-`mileswang-skill` v0.2.0 is a clean-room implementation of Miles Wang's own routing, project-execution, and content-creation workflows.
+`mileswang-skill` v0.3.0 is a clean-room implementation of Miles Wang's own routing, project-execution, content-creation, methodology, and semantic video-editing workflows.
 
 No third-party Skill source code, prompt text, scripts, knowledge bases, media, model outputs, or private data are bundled in this release. Public projects below were inspected only to understand product structure and packaging conventions.
 
 Runtime references such as `pdf:pdf` or `github:gh-fix-ci` are canonical names used in simulated routing fixtures. They do not bundle, relicense, or claim ownership of the referenced Skills. Availability and licensing remain with the independently installed provider.
 
 ## Architecture references
+
+### HyperFrames
+
+- Package: <https://www.npmjs.com/package/hyperframes>
+- Pinned runtime version: `0.7.81`.
+- License: Apache-2.0 according to the published npm package metadata.
+- Use here: project-local transcription orchestration, browser-based checks,
+  snapshots, preview, and rendering.
+- Bundled material: none. The package, managed browser, fonts, and local Whisper
+  model are downloaded into the user's own project/cache only after approval.
+- Credentials: no Miles API, account, token, or private service is used.
 
 ### OpenAI Plugins
 

@@ -91,6 +91,19 @@ class PortableV10Tests(unittest.TestCase):
             self.assertFalse(copied.is_symlink())
             self.assertEqual(self.module.digest(copied), original_hash)
 
+    def test_preflight_requires_only_public_local_toolchain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = self.make_source(Path(tmp))
+            result = self.run_cli("preflight", "--input", str(source), "--json")
+            self.assertEqual(result.returncode, 0, result.stdout)
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["status"], "setup_required")
+            requirements = " ".join(payload["setup_required"])
+            self.assertIn("project-local hyperframes@0.7.81", requirements)
+            self.assertIn("local Whisper", requirements)
+            self.assertNotIn("active hyperframes", requirements)
+            self.assertNotIn("active timestamped", requirements)
+
     def test_path_escape_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(self.module.ContractError):

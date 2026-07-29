@@ -10,7 +10,7 @@ Use this reference only when the primary skill is not obvious.
 | Draft, script, post, title, article, or revision for an audience | Narrowest applicable platform or format skill, otherwise `miles-content` | `miles-content` | Preserve facts, find a real scene and conflict, and cut filler. |
 | Analyze supplied X material into first principles, methodology, transfer, and claim boundaries | `miles-x-methodology` | None | Use only the supplied and actually read evidence. |
 | Analyze an X URL whose content has not been retrieved | Matching active browser or research Skill | `miles-x-methodology` | The external executor acquires the source; the Miles layer analyzes only returned evidence. |
-| Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; active transcription and HyperFrames Skills retain their external identities. |
+| Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; the default path uses the pinned public local toolchain and no author API. |
 | Browser, spreadsheet, image, video, document, API, or platform-specific operation | Matching specialist skill | Add a Miles layer only if the deliverable also meets its trigger | Do not make `mileswang` perform the specialist procedure. |
 | Explanation, translation, lookup, or small factual answer | Direct answer or matching research skill | None by default | Do not force a project contract onto a simple request. |
 | Two independent deliverables | One owner or agent per deliverable | Apply per task | Do not hide two tasks inside one vague execution plan. |
@@ -102,8 +102,8 @@ Input contains only an X URL and asks for methodology analysis.
 Input contains one source video and asks Miles to package or AI-edit it.
 
 1. Select `miles-video-editing` as the internal method owner.
-2. Require an active timestamped transcription executor and active HyperFrames
-   authoring/render executors; preserve their exact names.
+2. Use project-local `hyperframes@0.7.81` and local Whisper by default; no
+   separately installed Skill or Miles credential is required.
 3. Stop on missing input, dependency, transcript, media, check, or preview
    approval. A generated composition is not a rendered final video.
 

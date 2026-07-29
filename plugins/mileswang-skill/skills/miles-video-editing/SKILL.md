@@ -9,22 +9,21 @@ Turn one real source video into one semantic, reviewable candidate. The visual
 system must explain the speech; repeating subtitles in decorative boxes is not
 completion.
 
-## Route the real executors
+## Use the public local toolchain
 
 This Miles Skill owns the V10 method, portable workspace, storyboard contract,
-composition builder, spatial rules, and acceptance. It does not rename or copy
-external executors.
+composition builder, spatial rules, and acceptance. A user needs only this
+plugin plus public local system prerequisites; they do not need another Skill,
+Miles API, Miles credentials, or a Miles-hosted service.
 
 Use the host-provided active Skill catalog as the only availability authority
-and keep the selected executor unchanged. Do not rediscover or replace the selected executor from disk folders, caches, inventories, or configuration.
+when the user explicitly delegates an operation to another Skill. Keep the
+catalog decision and keep the selected executor unchanged. Do not rediscover or replace the selected executor
+from disk folders, caches, inventories, or configuration. The default path does
+not delegate: it installs the pinned Apache-2.0 `hyperframes@0.7.81` npm package
+inside the current video project and forces local Whisper transcription.
 
-- Use the active `media-use` or `hyperframes-media` executor for timestamped
-  transcription. Preserve the exact selected canonical name.
-- Use the active `hyperframes` and `hyperframes-cli` workflows to check,
-  preview, snapshot, and render the generated composition.
-- If a required executor is not active, stop and name it. Disk presence is not
-  session availability.
-- Never infer a transcript, media asset, or successful render.
+Never infer a transcript, media asset, successful check, or successful render.
 
 Read [the V10 contract](references/v10-contract.md) before authoring the
 storyboard and [the dependency contract](references/dependencies.md) before any
@@ -50,10 +49,29 @@ python3 <SKILL_DIR>/scripts/video_workspace.py init \
 The source is copied into `source/` and never overwritten. All manifest paths
 are relative and must resolve inside the project.
 
+With explicit approval for network and disk changes, install the project-local
+public toolchain and pinned browser:
+
+```bash
+python3 <SKILL_DIR>/scripts/video_workspace.py setup \
+  --project-dir <project-dir>
+```
+
+Setup installs only into `work/toolchain/`. It never reads an API key or writes
+to the Skill package.
+
 ## Obtain evidence and author the storyboard
 
-Transcribe the copied source through the selected active executor. Store SRT at
-`work/transcript.srt`; do not publish the transcript with this Skill.
+Transcribe the copied source locally:
+
+```bash
+python3 <SKILL_DIR>/scripts/video_workspace.py transcribe \
+  --project-dir <project-dir> --language zh
+```
+
+This forces local Whisper and stores SRT at `work/transcript.srt`. Inspect and
+correct the result against the real audio before authoring semantic beats; do
+not publish the transcript with this Skill.
 
 Create `work/spec/storyboard.json` from
 [the public schema](references/storyboard.schema.json). Each semantic beat must
@@ -83,17 +101,18 @@ python3 <SKILL_DIR>/scripts/video_workspace.py build \
 The builder uses deterministic finite WAAPI animation and does not bundle GSAP,
 private fonts, remote scripts, Miles media, or machine-specific paths.
 
-From `work/composition/`, use the selected HyperFrames executors:
+From `work/composition/`, use the project-local pinned CLI:
 
 ```bash
-npm install
+npm install --ignore-scripts --no-audit --no-fund
 npx hyperframes check --strict --snapshots
 npx hyperframes preview
 ```
 
-`npm install` and browser/model setup change the machine and may use the
-network; perform them only after explicit user approval. A passing check is not
-render approval. Show the final Studio preview and wait for approval.
+Package, browser, font, and model setup may use the public npm, Google Fonts, or
+Hugging Face endpoints; perform them only after explicit user approval. None is
+a Miles API. A passing check is not render approval. Show the final Studio
+preview and wait for approval.
 
 ## Render and verify
 

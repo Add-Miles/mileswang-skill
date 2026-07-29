@@ -101,7 +101,7 @@ Do not scan `~/.codex/skills`, `~/.agents/skills`, `~/.claude/skills`, plugin ca
 - Add `miles-project` as a governance layer only when the work changes a project, has an ambiguous target, or involves restoration, migration, publication, or deployment.
 - Add `miles-content` only when the deliverable itself is creator-facing content.
 - Add `miles-x-methodology` around an external acquisition executor only for URL-only X methodology requests; after acquisition it analyzes the returned evidence and does not replace the acquisition executor.
-- Keep `miles-video-editing` as the internal method owner. Its selected external transcription and HyperFrames executors retain their exact active-catalog names and procedures.
+- Keep `miles-video-editing` as the internal method owner. Its default transcription and render path is the pinned project-local public toolchain; only a user-selected active external executor retains a separate active-catalog identity.
 - Do not rename, copy, paraphrase, or present a third-party skill as a Miles-owned capability.
 - Do not invent an internal module for a capability that has no real implementation, license basis, input, and acceptance path.
 - Calling a Skill supplied independently outside this plugin is delegation, not redistribution. Never copy its prompt, code, assets, local data, or credentials into this plugin.
