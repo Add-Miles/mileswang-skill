@@ -2,11 +2,11 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前稳定版本：[`v0.2.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.2.0)。
+当前公开稳定版本仍是 [`v0.2.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.2.0)。本分支已形成待发布 `v0.3.0`；发布后地址为 [`v0.3.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.3.0)，目前不得把该链接视为已上线证据。
 
-它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.2.0 交付 Miles 原创的路由、项目执行与内容创作方法，以及可复现的集成和发布底盘；尚未存在的 X 插件、模型调用、MCP 服务和账号能力不在本版本中。
+它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。待发布 v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
 
-## v0.2.0 包含什么
+## 待发布 v0.3.0 包含什么
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
@@ -14,13 +14,13 @@
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
 | `miles-x-methodology`（候选） | 分析已提供或真实获取的 X 帖子材料 | 固定五问、证据标签、第一性原理、可迁移行动、未核验主张与最小验证动作；当前等待真实新会话与 Miles 内容验收 |
-| `miles-video-editing`（候选） | 把一条真实口播视频做成 V10 风格语义剪辑 | 可迁移工作区、语义分镜、信息卡、微特效、空间避让、HyperFrames 检查与成片验收；当前等待 V10 同输入与 Miles 视觉验收 |
+| `miles-video-editing` | 把一条真实口播视频做成 V10 风格语义剪辑 | 可迁移工作区、语义分镜、信息卡、空间避让、HyperFrames 检查与成片验收；已通过两条真人视频、用户确认和隔离安装验收 |
 
 ## 两类能力，一个入口
 
 `mileswang-skill` 的长期能力分成两类，不能混为一谈：
 
-- **Miles 自有能力**：由 Miles 定义、验证和发布。稳定发布目前包括 `miles-project` 和 `miles-content`；`miles-x-methodology` 与 `miles-video-editing` 已进入实现候选，但完成各自真实验收前不算稳定发布。
+- **Miles 自有能力**：由 Miles 定义、验证和发布。待发布 v0.3.0 包括 `miles-project`、`miles-content` 和已验收的 `miles-video-editing`；`miles-x-methodology` 仍是候选，完成真实新会话与 Miles 内容验收前不算稳定发布。
 - **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
 
 路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。
@@ -39,10 +39,10 @@
 
 ## 安装
 
-先添加这个仓库提供的 marketplace，再安装其中唯一的插件：
+v0.3.0 发布后，使用下面的固定 tag 安装。发布前继续使用公开 v0.2.0，不要把本分支候选命令当成已上线入口：
 
 ```bash
-codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.2.0
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.3.0
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
@@ -190,7 +190,7 @@ python3 tools/check_x_methodology_contract.py
 python3 tools/check_video_v10_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
-python3 -m zipfile -t dist/mileswang-skill-v0.2.0.zip
+python3 -m zipfile -t dist/mileswang-skill-v0.3.0.zip
 ```
 
 合并后的 `v*` tag 必须与 `VERSION` 完全一致。tag 工作流会重新执行这些 Gate，并只在全部通过后创建 GitHub Release 和可下载 zip。发布成功证明的是版本、路由、结构和分发链成立，不证明内容效果。

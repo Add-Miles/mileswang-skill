@@ -21,9 +21,9 @@
     },
     {
       "id": "semantic-video-editing",
-      "state": "candidate-owned",
+      "state": "released-owned",
       "executor": "miles-video-editing",
-      "evidence": "portable-contract-tested-awaiting-v10-same-input-and-user-acceptance"
+      "evidence": "two-real-video-renders-user-accepted-clean-install-and-contract-tested"
     },
     {
       "id": "external-specialists",

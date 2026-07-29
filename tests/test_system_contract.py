@@ -72,6 +72,20 @@ class SystemContractTests(unittest.TestCase):
         self.assertEqual(capability["state"], "candidate-owned")
         self.assertIn("awaiting-real-session", capability["evidence"])
 
+    def test_video_editing_is_released_only_with_real_acceptance(self) -> None:
+        path = (
+            REPO_ROOT / "plugins" / "mileswang-skill" / "skills" / "mileswang"
+            / "references" / "capability-map.json"
+        )
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        capability = next(
+            item for item in payload["capabilities"]
+            if item["executor"] == "miles-video-editing"
+        )
+        self.assertEqual(capability["state"], "released-owned")
+        self.assertIn("two-real-video-renders", capability["evidence"])
+        self.assertIn("clean-install", capability["evidence"])
+
     def test_post_task_case_requires_concrete_result(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
