@@ -128,3 +128,11 @@ Verify a real non-empty H.264/AAC 1080x1920 MP4, duration, frame rate, audio,
 and snapshots. Call it a `candidate` until semantic timing, explanatory value,
 caption readability, and spatial crowding pass human review. Automated checks
 cannot promote this Skill from candidate to released-owned.
+
+## Protect Miles personal information
+
+Allow public Miles branding, but remove non-brand contact details, private
+paths, account identifiers, private chats, and unnecessary face, voice, device,
+location, or source-media metadata from previews, renders, logs, and handoffs.
+Keep required private source media local and stop before any unapproved upload
+or public export.

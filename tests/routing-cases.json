@@ -3,6 +3,7 @@
   "internal_skills": [
     "miles-content",
     "miles-ai-video",
+    "miles-update",
     "miles-project",
     "miles-x-methodology",
     "miles-video-editing"
@@ -15,6 +16,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology",
@@ -39,6 +41,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -61,6 +64,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-update",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -84,6 +88,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-update",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -102,12 +107,38 @@
       ]
     },
     {
+      "id": "internal-stable-self-update",
+      "request": "更新 mileswang，只更新这个插件到最新稳定版，新对话生效。",
+      "requested_skill": null,
+      "active_skills": [
+        "miles-ai-video",
+        "miles-content",
+        "miles-project",
+        "miles-update",
+        "miles-video-editing",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-update",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "official stable release",
+        "only mileswang-skill",
+        "rollback",
+        "new conversation"
+      ]
+    },
+    {
       "id": "external-x-acquisition-with-methodology-layer",
       "request": "分析这个 X 链接背后的方法论，但我只提供了 URL。",
       "requested_skill": null,
       "active_skills": [
         "browser:control-in-app-browser",
         "miles-ai-video",
+        "miles-update",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -136,6 +167,7 @@
         "hyperframes-cli",
         "media-use",
         "miles-ai-video",
+        "miles-update",
         "miles-content",
         "miles-project",
         "miles-video-editing",
@@ -161,6 +193,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology",
@@ -188,6 +221,7 @@
         "github:gh-fix-ci",
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -212,6 +246,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -238,6 +273,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology",
@@ -269,6 +305,7 @@
         "chrome:control-chrome",
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -295,6 +332,7 @@
         "general-video",
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"
@@ -322,6 +360,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-update",
         "miles-project",
         "miles-video-editing",
         "miles-x-methodology"

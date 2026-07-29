@@ -82,9 +82,10 @@ Before claiming a release is ready:
 6. Confirm every manifest path resolves inside the repository.
 7. Confirm `PROJECT.md` is ignored and not tracked.
 8. Scan tracked files for secrets, private absolute paths, account data, and unlicensed material.
-9. Test a clean marketplace install from the exact release tag.
-10. Exercise the three routing acceptance cases with fresh Agents and real representative inputs.
-11. For a public release, verify the unauthenticated GitHub URL, exact published commit, tag, workflow run, and release asset.
+9. Run `python3 tools/check_privacy_contract.py` against full reachable history; only GitHub noreply commit identities may pass.
+10. Test a clean marketplace install from the exact release tag.
+11. Exercise the three routing acceptance cases with fresh Agents and real representative inputs.
+12. For a public release, verify the unauthenticated GitHub URL, exact published commit, tag, workflow run, and release asset.
 
 Every Miles-owned leaf Skill must be linked by `mileswang`, documented in the README capability table, and covered by at least one case in `tests/routing-cases.json`. A scaffolded but unregistered Skill is a release-blocking orphan.
 Runtime external-routing cases must preserve namespaced canonical names and cover internal, external-available, unavailable, and ambiguous states. Third-party executors remain independently installed and are never bundled by a routing test.

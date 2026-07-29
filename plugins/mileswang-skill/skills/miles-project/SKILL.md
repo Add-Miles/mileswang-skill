@@ -77,3 +77,11 @@ Read [worked examples and checklists](references/examples.md) when the request i
 ## Deliver against the original goal
 
 Lead with the actual outcome. Report changed artifacts, real verification evidence, unresolved limits, and rollback. Do not claim more than the evidence level supports. Record future ideas separately; do not add them to the active iteration.
+
+## Protect Miles personal information
+
+Allow the public Miles brand, but keep non-brand contact details, private paths,
+account identifiers, credentials, chats, and local source evidence out of
+public artifacts, logs, errors, and Agent handoffs. Use anonymous fixtures and
+role-based placeholders; stop a publication or delegation that would expose the
+protected value.

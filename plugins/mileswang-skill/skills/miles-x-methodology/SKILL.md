@@ -74,6 +74,13 @@ stable author methodology when no author history was supplied.
   the minimum verification action.
 - Do not add collection, storage, Feishu, publishing, or browser-extension work.
 
+## Protect Miles personal information
+
+Keep public Miles brand references, but do not include non-brand contact
+details, private paths, account identifiers, chats, private source records, or
+unpublished personal examples in the report or acquisition handoff. Replace
+them with role-based placeholders or stop if the analysis depends on exposure.
+
 ## Respect the routing boundary
 
 Use the host-provided active Skill catalog as the only availability authority

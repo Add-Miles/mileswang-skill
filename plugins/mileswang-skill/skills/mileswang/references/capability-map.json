@@ -32,6 +32,12 @@
       "evidence": "two-real-video-renders-user-accepted-clean-install-and-contract-tested"
     },
     {
+      "id": "stable-self-update",
+      "state": "released-owned",
+      "executor": "miles-update",
+      "evidence": "real-v0.2-to-v0.3-upgrade-rollback-contract-and-release-tested"
+    },
+    {
       "id": "external-specialists",
       "state": "external-runtime",
       "executor": null,

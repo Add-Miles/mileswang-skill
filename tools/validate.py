@@ -24,6 +24,12 @@ HIGH_RISK_PATTERNS = {
         r"['\"][^<'\"\s][^'\"]{7,}['\"]"
     ),
 }
+EMAIL_RE = re.compile(
+    r"(?<![A-Za-z0-9._%+-])([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})(?![A-Za-z0-9.-])"
+)
+PUBLIC_EMAIL_RE = re.compile(r"^[^@\s]+@users\.noreply\.github\.com$")
+PUBLIC_PROTOCOL_IDENTITIES = {"git@github.com"}
+PHONE_RE = re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")
 PUBLISH_SCAN_ROOTS = (
     "README.md",
     "THIRD_PARTY_NOTICES.md",
@@ -120,6 +126,12 @@ def scan_public_files(repo_root: Path) -> None:
         for label, pattern in HIGH_RISK_PATTERNS.items():
             if pattern.search(text):
                 raise ValidationError(f"{label} found in public file: {path}")
+        for match in EMAIL_RE.finditer(text):
+            value = match.group(1)
+            if value not in PUBLIC_PROTOCOL_IDENTITIES and not PUBLIC_EMAIL_RE.fullmatch(value):
+                raise ValidationError(f"private email found in public file: {path}")
+        if PHONE_RE.search(text):
+            raise ValidationError(f"phone number found in public file: {path}")
 
 
 def validate_all_json(repo_root: Path) -> int:

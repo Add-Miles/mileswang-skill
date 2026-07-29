@@ -1,7 +1,7 @@
 {
   "name": "mileswang-skill",
-  "version": "0.3.0",
-  "description": "Route work to the narrowest active Skill with evidence-backed project, content, methodology, and semantic video-editing workflows.",
+  "version": "0.4.0",
+  "description": "Route work to the narrowest active Skill with evidence-backed project, content, video, and stable self-update workflows.",
   "author": {
     "name": "Miles Wang",
     "url": "https://github.com/Add-Miles"
@@ -13,8 +13,9 @@
     "codex",
     "skills",
     "project-execution",
-      "content-creation",
-      "video-editing",
+    "content-creation",
+    "video-editing",
+    "self-update",
     "evidence",
     "workflow"
   ],
