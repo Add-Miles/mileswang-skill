@@ -82,7 +82,7 @@ Before claiming a release is ready:
 6. Confirm every manifest path resolves inside the repository.
 7. Confirm `PROJECT.md` is ignored and not tracked.
 8. Scan tracked files for secrets, private absolute paths, account data, and unlicensed material.
-9. Run `python3 tools/check_privacy_contract.py` against full reachable history; only GitHub noreply commit identities may pass.
+9. Run `python3 tools/check_privacy_contract.py` against publishable heads and tags; only GitHub noreply commit and tag identities may pass. GitHub-internal PR/cache cleanup is a separate host operation.
 10. Test a clean marketplace install from the exact release tag.
 11. Exercise the three routing acceptance cases with fresh Agents and real representative inputs.
 12. For a public release, verify the unauthenticated GitHub URL, exact published commit, tag, workflow run, and release asset.

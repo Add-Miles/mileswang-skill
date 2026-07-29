@@ -45,13 +45,34 @@ def validate_identity_lines(lines: list[str]) -> None:
         )
 
 
+def publishable_history_refs(repo: Path = REPO) -> list[str]:
+    completed = subprocess.run(
+        [
+            "git",
+            "for-each-ref",
+            "refs/heads",
+            "refs/tags",
+            "--format=%(refname)",
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise PrivacyContractError("could not inspect publishable Git refs")
+    refs = [line for line in completed.stdout.splitlines() if line]
+    return ["HEAD", *refs]
+
+
 def history_identity_lines(repo: Path = REPO) -> list[str]:
+    refs = publishable_history_refs(repo)
     completed = subprocess.run(
         [
             "git",
             "log",
-            "--all",
             "--format=%H%x00%ae%x00%ce",
+            *refs,
         ],
         cwd=repo,
         check=False,
@@ -127,7 +148,7 @@ def validate_privacy_contract(repo: Path = REPO, check_history: bool = True) -> 
     return [
         "public brand allowlist and protected-data boundary",
         f"privacy gate in {len(list(skills_root.glob('*/SKILL.md')))} Skills",
-        "reachable commit and tag identities use GitHub noreply"
+        "publishable commit and tag identities use GitHub noreply"
         if check_history
         else "history scan deferred",
     ]
