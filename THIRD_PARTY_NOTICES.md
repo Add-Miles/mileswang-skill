@@ -30,6 +30,26 @@ Runtime references such as `pdf:pdf` or `github:gh-fix-ci` are canonical names u
 - Use here: high-level observation of a router plus independent modules and release-contract concepts.
 - Bundled material: none. `dbskill` is licensed under CC BY-NC 4.0; its content is not relicensed by this repository.
 
+### Anthropic Skills
+
+- Upstream: <https://github.com/anthropics/skills>
+- Use here: high-level observation of self-contained Skill directories and progressive disclosure.
+- Bundled material: none. The upstream repository contains components under different license terms; no upstream prompt, script, documentation, or asset was copied.
+
+### Superpowers
+
+- Upstream: <https://github.com/obra/superpowers>
+- License: MIT at inspection time.
+- Use here: high-level observation that workflow decisions should remain in narrow, independently triggered Skills rather than one giant entry prompt.
+- Bundled material: none.
+
+### Hugging Face Skills
+
+- Upstream: <https://github.com/huggingface/skills>
+- License: Apache-2.0 at inspection time.
+- Use here: high-level observation of a multi-Skill repository that preserves individual capability boundaries and cross-agent compatibility.
+- Bundled material: none.
+
 ## Future integrations
 
 A future module that depends on third-party material must document its exact upstream URL, pinned version, license, modifications, distribution mode, and required attribution before it can be bundled. If those facts are missing or incompatible with this repository's distribution, the dependency must remain external.

@@ -14,6 +14,25 @@
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
 
+## 两类能力，一个入口
+
+`mileswang-skill` 的长期能力分成两类，不能混为一谈：
+
+- **Miles 自有能力**：由 Miles 定义、验证和发布，代码与工作流真实包含在本插件中。当前只有 `miles-project` 和 `miles-content`。
+- **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
+
+路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。
+
+## 系统怎样衔接任务
+
+统一入口有三种行为：
+
+1. 第一次使用时，说明可以提交什么、系统怎样选一个执行者、可能得到什么结果，然后接住用户当前的真实任务。
+2. 任务开始前，只选择一个当前执行者；不会让用户先学习完整目录。
+3. 一个 Skill 完成后，根据它的具体结果和用户最新反馈决定至多一个下一步；任务已经完成就停止，不预设固定 Skill 流水线。
+
+能力状态由 `capability-map.json` 明确区分为 `released-owned`、`external-runtime` 和 `future-candidate`。外部能力是否可用仍只由当前会话 active catalog 决定，能力地图不能替代运行时判断。
+
 仓库还提供一份可移植的 [`templates/AGENTS.md`](templates/AGENTS.md)。它是可选的项目规则模板，安装插件不会自动覆盖你现有的全局或项目级 `AGENTS.md`。
 
 ## 安装
@@ -120,7 +139,10 @@ python3 tools/new_skill.py miles-example \
 
 ```bash
 python3 tools/check_routing_contract.py
+python3 tools/check_system_contract.py
 ```
+
+`check_system_contract.py` 还会拒绝以下伪能力：候选能力提前绑定 executor、外部能力被写成静态可用、已发布自有能力没有真实目录，以及真实 Miles 叶子没有登记为已发布能力。
 
 未来的 X 能力也遵循同一规则：只有真实代码、合法数据源、许可证、安全边界和可重复验收都存在时，才新增独立模块；v0.2.0 不预埋一个假的 `miles-x`。
 
@@ -131,6 +153,7 @@ python3 tools/check_routing_contract.py
 ```bash
 python3 tools/validate.py
 python3 tools/check_routing_contract.py
+python3 tools/check_system_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
 python3 -m zipfile -t dist/mileswang-skill-v0.2.0.zip

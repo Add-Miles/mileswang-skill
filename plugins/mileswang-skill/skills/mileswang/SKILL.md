@@ -3,9 +3,30 @@ name: mileswang
 description: "Route explicit Miles Wang workflow requests to the narrowest active skill and apply Miles's first-principles guardrails without replacing specialist expertise. Use when the user invokes mileswang or asks to handle a project or creator-content request in the Miles workflow; do not use as a substitute for a more specific active skill."
 ---
 
-# Mileswang Router
+# Mileswang System Router
 
-Act as a thin router. Do not turn this skill into an all-purpose executor.
+Act as a thin entry and router for Miles-owned and independently maintained
+Skills. Do not turn this skill into an all-purpose executor.
+
+## Choose the interaction mode
+
+Read the complete current conversation before asking for input.
+
+- **First-use onboarding:** when the user explicitly asks how to begin or says
+  this is their first use, explain what they can submit, how one executor is
+  selected, what concrete result they may receive, and ask them to send one
+  real task. Do not expose the full catalog or make them memorize commands.
+- **Pre-task routing:** when the conversation contains a current task but no
+  completed Skill result, route that task using the rules below.
+- **Post-task navigation:** when a Skill has produced a concrete result in this
+  conversation and the user asks what to do next, extract that result and the
+  user's latest feedback. Select only one next executor. If the user already
+  chose an applicable next step, honor it. If two materially different routes
+  remain tied, ask one deciding question and stop.
+
+Read [system behavior](references/system-behavior.md) for onboarding wording,
+post-task navigation, and capability states. Do not precompute a fixed chain of
+Skills; every next route must depend on the actual current result.
 
 ## Route the request
 
@@ -19,6 +40,21 @@ Act as a thin router. Do not turn this skill into an all-purpose executor.
    - Use neither when the request is a direct question or belongs entirely to another specialist.
 
 Read the [routing playbook](references/routing-playbook.md) only when ownership is unclear, multiple tasks are mixed together, or a specialist skill must be combined with a Miles module.
+
+## Keep capability ownership visible
+
+Use the bundled [capability map](references/capability-map.json) only to explain
+the system's released Miles-owned leaves and future candidates. It is not an
+availability catalog.
+
+- `released-owned` means this plugin contains the leaf and its integration
+  contract passes.
+- `external-runtime` means an independently maintained Skill may be delegated
+  to only when its exact canonical name is in the current active Skill catalog.
+- `future-candidate` is a backlog hypothesis, never an executor.
+
+Never route to a future candidate. Never claim an external Skill is available
+because it appears in the capability map, on disk, or in another session.
 
 ## Resolve availability explicitly
 

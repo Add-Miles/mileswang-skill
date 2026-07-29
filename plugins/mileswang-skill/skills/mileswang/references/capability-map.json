@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "capabilities": [
+    {
+      "id": "project-execution",
+      "state": "released-owned",
+      "executor": "miles-project",
+      "evidence": "bundled-and-contract-tested"
+    },
+    {
+      "id": "creator-content",
+      "state": "released-owned",
+      "executor": "miles-content",
+      "evidence": "bundled-and-contract-tested"
+    },
+    {
+      "id": "external-specialists",
+      "state": "external-runtime",
+      "executor": null,
+      "evidence": "current-active-catalog-only"
+    },
+    {
+      "id": "personal-decision-tracking",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "personal-research-workflow",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "business-problem-diagnosis",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "benchmark-selection",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "creator-performance-retrospective",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "script-retention-diagnosis",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "personal-learning-loop",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "agent-workbench-governance",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    },
+    {
+      "id": "content-publishing-workflow",
+      "state": "future-candidate",
+      "executor": null,
+      "evidence": "requires-real-input-golden-sample-and-acceptance"
+    }
+  ]
+}
