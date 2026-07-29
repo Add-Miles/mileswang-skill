@@ -51,6 +51,13 @@ run a global marketplace upgrade, track mutable `main`, update other plugins,
 or use a Miles API, key, account, or private service. Public GitHub Release and
 raw-content endpoints are the only network authority.
 
+## Protect Miles personal information
+
+Return only version, status, failed stage, and rollback state. Keep non-brand
+Miles contact details, private paths, account identifiers, configuration data,
+and subprocess output out of responses, logs, and handoffs. Never read or send
+credentials to check a public release.
+
 ## Respect the router boundary
 
 When `mileswang` invokes this Skill, use the host-provided active Skill catalog

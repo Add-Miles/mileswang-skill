@@ -69,6 +69,14 @@ Block delivery for hard errors:
 
 Treat wording, music, color, and local pacing as soft problems. Fix them locally without throwing away a working proof structure.
 
+## Protect Miles personal information
+
+Keep `Miles Wang`, `Add-Miles`, and the public repository identity as allowed
+brand references. Before returning or exporting anything, remove non-brand
+Miles contact details, private paths, account identifiers, chats, unapproved
+faces or voices, and unnecessary source-media metadata. Stop if the task would
+require exposing them.
+
 ## Respect the router boundary
 
 When `mileswang` invokes this Skill, use the host-provided active Skill catalog as the only availability authority and keep the selected executor unchanged. Do not rediscover or replace the selected executor from disk folders, plugin caches, local inventories, or configuration files.

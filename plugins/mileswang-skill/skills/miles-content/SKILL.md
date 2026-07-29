@@ -71,6 +71,13 @@ Default to this compact response:
 
 Keep the internal audit out of the final copy. Do not add an inspirational ending or a summary slogan unless the material and delivery purpose require it.
 
+## Protect Miles personal information
+
+Keep public brand names, but remove non-brand Miles contact details, private
+paths, account identifiers, chats, and unpublished personal material from copy,
+examples, logs, and handoffs. If the claim or story cannot work without those
+details, stop instead of exposing them.
+
 Read [worked revisions and checks](references/examples.md) when the source mixes verified facts with promotional claims or when a concise rewrite needs a concrete comparison.
 
 ## Respect the router boundary

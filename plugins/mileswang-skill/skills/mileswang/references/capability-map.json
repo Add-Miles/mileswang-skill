@@ -33,9 +33,9 @@
     },
     {
       "id": "stable-self-update",
-      "state": "candidate-owned",
+      "state": "released-owned",
       "executor": "miles-update",
-      "evidence": "contract-and-rollback-tested-awaiting-published-release-upgrade"
+      "evidence": "real-v0.2-to-v0.3-upgrade-rollback-contract-and-release-tested"
     },
     {
       "id": "external-specialists",

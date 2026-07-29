@@ -28,6 +28,11 @@ Read [system behavior](references/system-behavior.md) for onboarding wording,
 post-task navigation, and capability states. Do not precompute a fixed chain of
 Skills; every next route must depend on the actual current result.
 
+Read and apply the [public privacy contract](references/privacy-contract.md)
+before producing any public artifact, final response, log, error, or Agent
+handoff. The public brand is allowed; non-brand Miles personal information is
+not.
+
 ## Route the request
 
 1. State the user's single primary deliverable in one sentence.

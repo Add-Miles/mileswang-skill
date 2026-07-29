@@ -43,6 +43,26 @@ class PrivacyScanTests(unittest.TestCase):
             ):
                 VALIDATE.scan_public_files(root)
 
+    def test_rejects_private_email_and_phone(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            private_email = "private" + "@" + "example.com"
+            (root / "README.md").write_text(private_email, encoding="utf-8")
+            with self.assertRaisesRegex(VALIDATE.ValidationError, "private email"):
+                VALIDATE.scan_public_files(root)
+
+            private_phone = "138" + "0013" + "8000"
+            (root / "README.md").write_text(private_phone, encoding="utf-8")
+            with self.assertRaisesRegex(VALIDATE.ValidationError, "phone number"):
+                VALIDATE.scan_public_files(root)
+
+    def test_allows_github_noreply_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            public_email = "123+Public-Brand" + "@" + "users.noreply.github.com"
+            (root / "README.md").write_text(public_email, encoding="utf-8")
+            VALIDATE.scan_public_files(root)
+
     def test_ignores_generated_python_cache(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

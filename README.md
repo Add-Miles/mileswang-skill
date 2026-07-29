@@ -2,11 +2,11 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前开发候选：[`v0.4.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.4.0)。发布前仍以 `v0.3.0` 为公开稳定回退点。
+当前稳定版本：[`v0.4.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.4.0)。
 
 它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
 
-## v0.4.0 候选包含什么
+## v0.4.0 包含什么
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
@@ -16,13 +16,13 @@
 | `miles-ai-video` | 策划、改编或审查 AI 产品演示与短视频 | 30-90 秒结构、镜头清单、屏幕证据、字幕/口播点和剪辑检查 |
 | `miles-x-methodology`（候选） | 分析已提供或真实获取的 X 帖子材料 | 固定五问、证据标签、第一性原理、可迁移行动、未核验主张与最小验证动作；当前等待真实新会话与 Miles 内容验收 |
 | `miles-video-editing` | 把一条真实口播视频做成 V10 风格语义剪辑 | 可迁移工作区、语义分镜、信息卡、空间避让、HyperFrames 检查与成片验收；已通过两条真人视频、用户确认和隔离安装验收 |
-| `miles-update`（候选） | 用户明确说“更新 mileswang”或检查 Miles 更新 | 只检查或安装官方最新稳定版；保护其他插件，失败回退，要求新会话生效 |
+| `miles-update` | 用户明确说“更新 mileswang”或检查 Miles 更新 | 只检查或安装官方最新稳定版；保护其他插件，失败回退，要求新会话生效 |
 
 ## 两类能力，一个入口
 
 `mileswang-skill` 的长期能力分成两类，不能混为一谈：
 
-- **Miles 自有能力**：由 Miles 定义、验证和发布。已发布能力包括 `miles-project`、`miles-content`、`miles-ai-video` 和 `miles-video-editing`；`miles-x-methodology` 与 `miles-update` 仍是候选，完成各自真实验收前不算稳定发布。
+- **Miles 自有能力**：由 Miles 定义、验证和发布。已发布能力包括 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing` 和 `miles-update`；`miles-x-methodology` 仍是候选，完成真实内容验收前不算稳定发布。
 - **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
 
 路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。
@@ -41,7 +41,7 @@
 
 ## 安装
 
-`v0.4.0` 发布后使用固定 tag 安装：
+使用固定 tag 安装：
 
 ```bash
 codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.4.0
@@ -67,6 +67,17 @@ Release，不更新其他插件，也不追踪未经发布的 `main`。更新失
 这不是后台实时更新：不会创建定时任务、启动项或静默网络请求。更新检查
 使用 GitHub 的公开 Release 和 raw-content 端点，不需要 Miles API、API
 Key、账号或私有服务。
+
+## 隐私边界
+
+公开允许的个人品牌只有 `Miles Wang`、`Miles`、`Add-Miles`、`mileswang`
+和 `mileswang-skill`。私人邮箱、电话、地址、机器路径、账号标识、聊天、
+凭据及不必要的脸部、声音和媒体元数据不得进入公开输出、日志、错误、
+Agent 交接或发布包。
+
+所有内置 Skill 都必须在输出前执行隐私 Gate；公开文件、发布包和完整可达
+Git 历史也由 CI 扫描。历史重写无法删除他人的克隆或宿主缓存，这些需要
+仓库托管方另行清理，不能把强推冒充成完整擦除。
 
 ### 剪视频的本地依赖
 
@@ -195,6 +206,7 @@ python3 tools/check_system_contract.py
 python3 tools/check_x_methodology_contract.py
 python3 tools/check_video_v10_contract.py
 python3 tools/check_update_contract.py
+python3 tools/check_privacy_contract.py
 ```
 
 `check_system_contract.py` 还会拒绝以下伪能力：候选能力提前绑定 executor、外部能力被写成静态可用、已发布自有能力没有真实目录，以及真实 Miles 叶子没有登记为已发布能力。
