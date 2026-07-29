@@ -8,6 +8,9 @@ Use this reference only when the primary skill is not obvious.
 | --- | --- | --- | --- |
 | Build, fix, restore, migrate, release, deploy, or materially change a project | Narrowest applicable engineering or platform skill | `miles-project` | Establish scope, authority, and real-path evidence before claiming completion. |
 | Draft, script, post, title, article, or revision for an audience | Narrowest applicable platform or format skill, otherwise `miles-content` | `miles-content` | Preserve facts, find a real scene and conflict, and cut filler. |
+| Analyze supplied X material into first principles, methodology, transfer, and claim boundaries | `miles-x-methodology` | None | Use only the supplied and actually read evidence. |
+| Analyze an X URL whose content has not been retrieved | Matching active browser or research Skill | `miles-x-methodology` | The external executor acquires the source; the Miles layer analyzes only returned evidence. |
+| Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; active transcription and HyperFrames Skills retain their external identities. |
 | Browser, spreadsheet, image, video, document, API, or platform-specific operation | Matching specialist skill | Add a Miles layer only if the deliverable also meets its trigger | Do not make `mileswang` perform the specialist procedure. |
 | Explanation, translation, lookup, or small factual answer | Direct answer or matching research skill | None by default | Do not force a project contract onto a simple request. |
 | Two independent deliverables | One owner or agent per deliverable | Apply per task | Do not hide two tasks inside one vague execution plan. |
@@ -75,6 +78,34 @@ Route:
 1. Select the applicable browser or X specialist from the active catalog.
 2. Do not route to `miles-content` merely because the source is a social platform.
 3. Add `miles-project` only if the user is building or changing a reusable collection system.
+
+### Example: X methodology from supplied text
+
+Input contains the post text and asks what method Miles can transfer.
+
+1. Select `miles-x-methodology` as the internal executor.
+2. Do not activate a browser Skill because the required source is already present.
+3. Exclude comments and label unsupported claims and inference explicitly.
+
+### Example: X methodology from URL only
+
+Input contains only an X URL and asks for methodology analysis.
+
+1. Select the applicable active browser or research Skill as the external
+   acquisition executor.
+2. Add `miles-x-methodology` as the analysis layer.
+3. If acquisition fails or omits essential media or context, report the missing
+   evidence instead of producing a complete analysis.
+
+### Example: semantic talking-head edit
+
+Input contains one source video and asks Miles to package or AI-edit it.
+
+1. Select `miles-video-editing` as the internal method owner.
+2. Require an active timestamped transcription executor and active HyperFrames
+   authoring/render executors; preserve their exact names.
+3. Stop on missing input, dependency, transcript, media, check, or preview
+   approval. A generated composition is not a rendered final video.
 
 ### Example: explicit external Skill
 

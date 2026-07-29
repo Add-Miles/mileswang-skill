@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "required_labels": [
+    "来源明确",
+    "事实摘要",
+    "AI 推断",
+    "未核验主张",
+    "Miles 可迁移行动"
+  ],
+  "required_sections": [
+    "博主说了什么事",
+    "博主回答了什么问题",
+    "第一性原理",
+    "方法论",
+    "Miles 可以迁移什么",
+    "不能直接相信的部分",
+    "适用边界",
+    "最小验证动作"
+  ],
+  "cases": [
+    {
+      "id": "supplied-complete-material",
+      "input_state": "content-present",
+      "expected_action": "analyze",
+      "must_show": ["five-questions", "evidence-ledger", "minimum-verification"]
+    },
+    {
+      "id": "url-only-active-acquisition",
+      "input_state": "url-only-external-active",
+      "expected_action": "acquire-then-analyze",
+      "must_show": ["exact-external-executor", "returned-evidence-only"]
+    },
+    {
+      "id": "url-only-acquisition-failed",
+      "input_state": "url-only-acquisition-failed",
+      "expected_action": "stop",
+      "must_show": ["missing-post-content", "no-inference-from-url"]
+    },
+    {
+      "id": "missing-media",
+      "input_state": "essential-media-missing",
+      "expected_action": "lower-conclusion",
+      "must_show": ["未核验主张", "unread-media-effect"]
+    },
+    {
+      "id": "no-author-history",
+      "input_state": "single-post-no-history",
+      "expected_action": "analyze-with-boundary",
+      "must_show": ["cannot-claim-stable-author-methodology"]
+    },
+    {
+      "id": "comments-requested",
+      "input_state": "comments-requested",
+      "expected_action": "confirm-scope-expansion",
+      "must_show": ["comments-excluded-by-default", "explicit-confirmation"]
+    },
+    {
+      "id": "rejected-compression",
+      "input_state": "catchy-summary-only",
+      "expected_action": "reject",
+      "must_show": ["preserve-evidence-boundaries", "preserve-counterclaims", "preserve-minimum-verification"]
+    }
+  ]
+}

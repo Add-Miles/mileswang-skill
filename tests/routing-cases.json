@@ -2,7 +2,9 @@
   "schema_version": 2,
   "internal_skills": [
     "miles-content",
-    "miles-project"
+    "miles-project",
+    "miles-x-methodology",
+    "miles-video-editing"
   ],
   "cases": [
     {
@@ -12,6 +14,8 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology",
         "pdf:pdf"
       ],
       "expected": {
@@ -32,7 +36,9 @@
       "requested_skill": null,
       "active_skills": [
         "miles-content",
-        "miles-project"
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
       ],
       "expected": {
         "status": "internal",
@@ -47,12 +53,87 @@
       ]
     },
     {
+      "id": "internal-x-methodology-supplied-content",
+      "request": "这是一个 X 帖子的完整正文和截图。分析博主的方法、底层因果、我能迁移的行动，以及不能直接相信的主张。",
+      "requested_skill": null,
+      "active_skills": [
+        "miles-content",
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-x-methodology",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "five protected questions",
+        "evidence labels",
+        "minimum verification action"
+      ]
+    },
+    {
+      "id": "external-x-acquisition-with-methodology-layer",
+      "request": "分析这个 X 链接背后的方法论，但我只提供了 URL。",
+      "requested_skill": null,
+      "active_skills": [
+        "browser:control-in-app-browser",
+        "miles-content",
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "external-available",
+        "executor": "browser:control-in-app-browser",
+        "miles_layers": [
+          "miles-x-methodology"
+        ],
+        "candidates": []
+      },
+      "must_show": [
+        "browser:control-in-app-browser",
+        "miles-x-methodology",
+        "analyze only returned evidence"
+      ]
+    },
+    {
+      "id": "internal-v10-talking-head-edit",
+      "request": "用 mileswang 剪这条已上传的口播视频，按 V10 做语义卡片、字幕、微特效和空间避让。",
+      "requested_skill": null,
+      "active_skills": [
+        "hyperframes",
+        "hyperframes-cli",
+        "media-use",
+        "miles-content",
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-video-editing",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "portable workspace",
+        "semantic storyboard",
+        "preview approval",
+        "real MP4 verification"
+      ]
+    },
+    {
       "id": "external-pdf-pass-through",
       "request": "Use the installed `pdf:pdf` Skill to edit this PDF.",
       "requested_skill": "pdf:pdf",
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology",
         "pdf:pdf"
       ],
       "expected": {
@@ -76,7 +157,9 @@
       "active_skills": [
         "github:gh-fix-ci",
         "miles-content",
-        "miles-project"
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
       ],
       "expected": {
         "status": "external-available",
@@ -97,7 +180,9 @@
       "requested_skill": "vendor:missing-skill",
       "active_skills": [
         "miles-content",
-        "miles-project"
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
       ],
       "expected": {
         "status": "unavailable",
@@ -121,6 +206,8 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology",
         "pdf:pdf",
         "vercel:deployments-cicd"
       ],
@@ -148,7 +235,9 @@
         "browser:control-in-app-browser",
         "chrome:control-chrome",
         "miles-content",
-        "miles-project"
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
       ],
       "expected": {
         "status": "ambiguous",
@@ -171,7 +260,9 @@
         "general-video",
         "general-video",
         "miles-content",
-        "miles-project"
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
       ],
       "expected": {
         "status": "ambiguous",
@@ -195,7 +286,9 @@
       "requested_skill": "vendor:cached-only",
       "active_skills": [
         "miles-content",
-        "miles-project"
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
       ],
       "inactive_skills": [
         "vendor:cached-only"

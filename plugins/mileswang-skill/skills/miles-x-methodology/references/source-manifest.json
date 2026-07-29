@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "GS-01-V1",
+      "role": "protected-positive-baseline",
+      "confirmation": "user-confirmed-2026-07-23",
+      "sha256": "c0fe5b746fd216ea9c666704bc1df8a5bac985425536e94c2cc6cbe21b6cf23d",
+      "distribution": "local-only"
+    },
+    {
+      "id": "GS-01-V1-record",
+      "role": "acceptance-record",
+      "confirmation": "user-confirmed-2026-07-23",
+      "sha256": "365ef1448cb6889aa6674892aef0c2b0af0f5ceaac067f958175cdecc5d42aa7",
+      "distribution": "local-only"
+    },
+    {
+      "id": "GS-01-V2-rejected",
+      "role": "protected-negative-baseline",
+      "confirmation": "user-rejected-2026-07-23",
+      "sha256": "44301c89573033b777e598f1c33f27c10630ac530e3253e888c5af8aeedf1500",
+      "distribution": "local-only"
+    },
+    {
+      "id": "X-methodology-requirements",
+      "role": "confirmed-requirements",
+      "confirmation": "user-confirmed-2026-07-23",
+      "sha256": "5cb7318f5e40a15ae8af31b43921c4ffb96bee3b9b4935fdbb4cc0583bc9e8e4",
+      "distribution": "local-only"
+    }
+  ]
+}

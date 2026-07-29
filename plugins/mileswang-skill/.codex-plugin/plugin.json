@@ -1,7 +1,7 @@
 {
   "name": "mileswang-skill",
-  "version": "0.2.0",
-  "description": "Route work to the narrowest active Skill while keeping evidence-backed project and content workflows available.",
+  "version": "0.3.0",
+  "description": "Route work to the narrowest active Skill with evidence-backed project, content, methodology, and semantic video-editing workflows.",
   "author": {
     "name": "Miles Wang",
     "url": "https://github.com/Add-Miles"
@@ -13,7 +13,8 @@
     "codex",
     "skills",
     "project-execution",
-    "content-creation",
+      "content-creation",
+      "video-editing",
     "evidence",
     "workflow"
   ],
@@ -33,7 +34,8 @@
     "defaultPrompt": [
       "Route this request to the narrowest currently active Skill and keep the exact executor name",
       "Help me turn this vague project into one scoped, verifiable delivery",
-      "Cut this content draft down to a real scene, a clear conflict, and supported claims"
+      "Cut this content draft down to a real scene, a clear conflict, and supported claims",
+      "Turn this talking-head video into a checked V10 semantic edit"
     ]
   }
 }

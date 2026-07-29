@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "first-use-empty",
+      "mode": "onboarding",
+      "prior_executor": null,
+      "prior_result": null,
+      "user_input": "第一次使用，怎么开始？",
+      "expected": {
+        "route_count_max": 0,
+        "must_explain": ["accepted input", "selection", "result", "first action"],
+        "must_not_show": ["full catalog"]
+      }
+    },
+    {
+      "id": "post-task-clear-bottleneck",
+      "mode": "post-task",
+      "prior_executor": "miles-content",
+      "prior_result": "The draft is concrete, but its unsupported product claim blocks publication.",
+      "user_input": "下一步怎么办？",
+      "expected": {
+        "route_count_max": 1,
+        "basis": "prior-result",
+        "must_explain": ["unsupported product claim"]
+      }
+    },
+    {
+      "id": "post-task-explicit-next-step",
+      "mode": "post-task",
+      "prior_executor": "miles-project",
+      "prior_result": "The local build passed; the live deployment is not verified.",
+      "user_input": "继续验证线上入口。",
+      "expected": {
+        "route_count_max": 1,
+        "basis": "explicit-next-step",
+        "must_explain": ["live deployment"]
+      }
+    },
+    {
+      "id": "post-task-complete-stop",
+      "mode": "post-task",
+      "prior_executor": "miles-project",
+      "prior_result": "The requested local migration completed and the real entrypoint passed.",
+      "user_input": "好的。",
+      "expected": {
+        "route_count_max": 0,
+        "basis": "task-complete",
+        "must_explain": ["stop"]
+      }
+    },
+    {
+      "id": "post-task-material-tie",
+      "mode": "post-task",
+      "prior_executor": "miles-content",
+      "prior_result": "The topic is usable, but both the audience and publishing platform remain unspecified.",
+      "user_input": "继续。",
+      "expected": {
+        "route_count_max": 0,
+        "basis": "one-deciding-question",
+        "must_explain": ["one question"]
+      }
+    }
+  ]
+}

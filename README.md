@@ -2,26 +2,47 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前稳定版本：[`v0.2.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.2.0)。
+当前公开稳定版本仍是 [`v0.2.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.2.0)。本分支已形成待发布 `v0.3.0`；发布后地址为 [`v0.3.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.3.0)，目前不得把该链接视为已上线证据。
 
-它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.2.0 交付 Miles 原创的路由、项目执行与内容创作方法，以及可复现的集成和发布底盘；尚未存在的 X 插件、模型调用、MCP 服务和账号能力不在本版本中。
+它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。待发布 v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
 
-## v0.2.0 包含什么
+## 待发布 v0.3.0 包含什么
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
 | `mileswang` | 用户只有模糊目标、不确定该用哪个 Skill，或希望调用已安装的第三方 Skill | 依据当前会话 active catalog，路由到精确内部或外部 executor |
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
+| `miles-x-methodology`（候选） | 分析已提供或真实获取的 X 帖子材料 | 固定五问、证据标签、第一性原理、可迁移行动、未核验主张与最小验证动作；当前等待真实新会话与 Miles 内容验收 |
+| `miles-video-editing` | 把一条真实口播视频做成 V10 风格语义剪辑 | 可迁移工作区、语义分镜、信息卡、空间避让、HyperFrames 检查与成片验收；已通过两条真人视频、用户确认和隔离安装验收 |
+
+## 两类能力，一个入口
+
+`mileswang-skill` 的长期能力分成两类，不能混为一谈：
+
+- **Miles 自有能力**：由 Miles 定义、验证和发布。待发布 v0.3.0 包括 `miles-project`、`miles-content` 和已验收的 `miles-video-editing`；`miles-x-methodology` 仍是候选，完成真实新会话与 Miles 内容验收前不算稳定发布。
+- **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
+
+路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。
+
+## 系统怎样衔接任务
+
+统一入口有三种行为：
+
+1. 第一次使用时，说明可以提交什么、系统怎样选一个执行者、可能得到什么结果，然后接住用户当前的真实任务。
+2. 任务开始前，只选择一个当前执行者；不会让用户先学习完整目录。
+3. 一个 Skill 完成后，根据它的具体结果和用户最新反馈决定至多一个下一步；任务已经完成就停止，不预设固定 Skill 流水线。
+
+能力状态由 `capability-map.json` 明确区分为 `released-owned`、`candidate-owned`、`external-runtime` 和 `future-candidate`。外部能力是否可用仍只由当前会话 active catalog 决定，能力地图不能替代运行时判断。
 
 仓库还提供一份可移植的 [`templates/AGENTS.md`](templates/AGENTS.md)。它是可选的项目规则模板，安装插件不会自动覆盖你现有的全局或项目级 `AGENTS.md`。
 
 ## 安装
 
-先添加这个仓库提供的 marketplace，再安装其中唯一的插件：
+v0.3.0 发布后，使用下面的固定 tag 安装。发布前继续使用公开 v0.2.0，不要把本分支候选命令当成已上线入口：
 
 ```bash
-codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.2.0
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.3.0
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
@@ -42,10 +63,18 @@ codex plugin add mileswang-skill@mileswang-skill
 ```
 
 ```text
+这是一个 X 帖子的正文和截图。区分来源、事实摘要、AI 推断和未核验主张，分析它的第一性原理、方法论，以及我能做的最小验证动作。
+```
+
+```text
+用 mileswang 剪这条口播视频。先做依赖预检和语义分镜，最终预览未经我确认不要渲染。
+```
+
+```text
 我要发布这个项目。先确认唯一权威版本、回退位置和真实验收路径，再执行。
 ```
 
-如果任务明确属于某个模块，也可以直接点名 `miles-project` 或 `miles-content`。这些 Skill 不会代替专门的设计、视频、浏览器或平台工具；遇到专业任务时，应该继续使用更窄、更匹配的能力。
+如果任务明确属于某个模块，也可以直接点名对应叶子。`miles-video-editing` 拥有 Miles 的 V10 方法，但转写与 HyperFrames 执行仍由当前会话真实可用的外部专业 Skill 完成并保留原名。
 
 ## 路由其他作者的 Skill
 
@@ -82,7 +111,9 @@ cp templates/AGENTS.md ./AGENTS.miles.example.md
 │   └── skills/
 │       ├── mileswang/
 │       ├── miles-project/
-│       └── miles-content/
+│       ├── miles-content/
+│       ├── miles-x-methodology/
+│       └── miles-video-editing/
 ├── templates/AGENTS.md
 ├── tools/
 │   ├── new_skill.py
@@ -120,9 +151,32 @@ python3 tools/new_skill.py miles-example \
 
 ```bash
 python3 tools/check_routing_contract.py
+python3 tools/check_system_contract.py
+python3 tools/check_x_methodology_contract.py
+python3 tools/check_video_v10_contract.py
 ```
 
-未来的 X 能力也遵循同一规则：只有真实代码、合法数据源、许可证、安全边界和可重复验收都存在时，才新增独立模块；v0.2.0 不预埋一个假的 `miles-x`。
+`check_system_contract.py` 还会拒绝以下伪能力：候选能力提前绑定 executor、外部能力被写成静态可用、已发布自有能力没有真实目录，以及真实 Miles 叶子没有登记为已发布能力。
+
+`miles-x-methodology` 只负责分析真实取得的材料，不内置 X 抓取、账号能力、自动收藏、飞书写入或作者数据库。只有 URL 时，入口应把内容获取交给当前会话真实可用的外部浏览器或研究 Skill，并保留外部身份。
+
+### 个人 Markdown 升级 Gate
+
+个人原文不进入公开仓库。`source-manifest.json` 只登记公开安全的来源 ID、确认状态、基线哈希和 `local-only` 分发边界。检查当前文件是否漂移：
+
+```bash
+python3 tools/check_source_drift.py \
+  --source 'GS-01-V1=/path/to/current-golden-sample.md'
+```
+
+需要比较稳定文件和候选文件时：
+
+```bash
+python3 tools/check_source_drift.py \
+  --compare '/path/to/stable.md=/path/to/candidate.md'
+```
+
+命令只向控制台输出哈希状态或统一 diff，不修改稳定 Skill。检测到变化时返回非零状态；只有同一 Golden Sample 回归不退步并获得 Miles 确认后，才能更新规则、哈希和能力状态。
 
 ## 维护与发布
 
@@ -131,9 +185,12 @@ python3 tools/check_routing_contract.py
 ```bash
 python3 tools/validate.py
 python3 tools/check_routing_contract.py
+python3 tools/check_system_contract.py
+python3 tools/check_x_methodology_contract.py
+python3 tools/check_video_v10_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
-python3 -m zipfile -t dist/mileswang-skill-v0.2.0.zip
+python3 -m zipfile -t dist/mileswang-skill-v0.3.0.zip
 ```
 
 合并后的 `v*` tag 必须与 `VERSION` 完全一致。tag 工作流会重新执行这些 Gate，并只在全部通过后创建 GitHub Release 和可下载 zip。发布成功证明的是版本、路由、结构和分发链成立，不证明内容效果。
