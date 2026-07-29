@@ -22,9 +22,9 @@ The script must:
 
 1. inspect the installed plugin through `codex plugin list --json`;
 2. require the exact official marketplace and repository identity;
-3. resolve the latest non-draft, non-prerelease GitHub Release;
-4. require a stable `vX.Y.Z` tag, matching plugin manifest, and SHA-256 release
-   asset digest;
+3. resolve the highest stable `vX.Y.Z` tag from the official public Git refs;
+4. require a matching plugin manifest, exact Release asset, and companion
+   SHA-256 checksum before changing the installation;
 5. replace only the `mileswang-skill` marketplace snapshot and reinstall only
    `mileswang-skill@mileswang-skill`;
 6. compare unrelated installed plugins before and after;
@@ -48,8 +48,8 @@ python3 scripts/update.py check --json
 
 Never create a daemon, cron job, startup hook, or silent network request. Never
 run a global marketplace upgrade, track mutable `main`, update other plugins,
-or use a Miles API, key, account, or private service. Public GitHub Release and
-raw-content endpoints are the only network authority.
+or use a Miles API, key, account, or private service. Public Git refs, raw
+content, and GitHub Release assets are the only network authority.
 
 ## Protect Miles personal information
 

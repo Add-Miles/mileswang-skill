@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -20,10 +21,13 @@ PLUGIN_ID = "mileswang-skill@mileswang-skill"
 MARKETPLACE = "mileswang-skill"
 REPOSITORY = "Add-Miles/mileswang-skill"
 REPOSITORY_URL = f"https://github.com/{REPOSITORY}.git"
-LATEST_RELEASE_URL = f"https://api.github.com/repos/{REPOSITORY}/releases/latest"
 RAW_MANIFEST_TEMPLATE = (
     "https://raw.githubusercontent.com/"
     f"{REPOSITORY}/{{tag}}/plugins/mileswang-skill/.codex-plugin/plugin.json"
+)
+RELEASE_ASSET_TEMPLATE = (
+    "https://github.com/"
+    f"{REPOSITORY}/releases/download/{{tag}}/{{asset}}"
 )
 SEMVER_RE = re.compile(r"^(?:v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
 
@@ -70,11 +74,12 @@ class Installation:
 
 
 Runner = Callable[[list[str]], dict[str, Any]]
-Fetcher = Callable[[str], dict[str, Any]]
+ByteFetcher = Callable[[str], bytes]
+TagLister = Callable[[], list[Version]]
 
 
-def fetch_json(url: str) -> dict[str, Any]:
-    raw: str | None = None
+def fetch_bytes(url: str) -> bytes:
+    raw: bytes | None = None
     curl = shutil.which("curl")
     if curl is not None:
         try:
@@ -86,17 +91,14 @@ def fetch_json(url: str) -> dict[str, Any]:
                     "--show-error",
                     "--location",
                     "--max-time",
-                    "20",
-                    "--header",
-                    "Accept: application/vnd.github+json",
+                    "30",
                     "--header",
                     "User-Agent: mileswang-skill-updater",
                     url,
                 ],
                 check=False,
                 capture_output=True,
-                text=True,
-                timeout=25,
+                timeout=35,
             )
         except (OSError, subprocess.TimeoutExpired):
             completed = None
@@ -104,70 +106,110 @@ def fetch_json(url: str) -> dict[str, Any]:
             raw = completed.stdout
 
     if raw is not None:
-        try:
-            payload = json.loads(raw)
-        except json.JSONDecodeError as exc:
-            raise UpdateError("public stable-release metadata is not valid JSON") from exc
-        if not isinstance(payload, dict):
-            raise UpdateError("public stable-release metadata has an invalid shape")
-        return payload
+        return raw
 
     request = urllib.request.Request(
         url,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": "mileswang-skill-updater",
-        },
+        headers={"User-Agent": "mileswang-skill-updater"},
     )
     try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            payload = json.load(response)
-    except (OSError, urllib.error.URLError, json.JSONDecodeError) as exc:
-        raise UpdateError("could not read the public stable-release metadata") from exc
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return response.read()
+    except (OSError, urllib.error.URLError) as exc:
+        raise UpdateError("could not read the public stable-release files") from exc
+
+
+def fetch_json(url: str, fetcher: ByteFetcher = fetch_bytes) -> dict[str, Any]:
+    try:
+        payload = json.loads(fetcher(url))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise UpdateError("public stable-release metadata is not valid JSON") from exc
     if not isinstance(payload, dict):
         raise UpdateError("public stable-release metadata has an invalid shape")
     return payload
 
 
-def parse_release(payload: dict[str, Any], manifest: dict[str, Any]) -> Release:
-    if payload.get("draft") is not False or payload.get("prerelease") is not False:
-        raise UpdateError("latest release is not a published stable release")
-    tag = payload.get("tag_name")
-    if not isinstance(tag, str):
-        raise UpdateError("latest release is missing a stable tag")
-    version = Version.parse(tag)
-    if tag != version.tag:
-        raise UpdateError("latest release tag is not canonical")
+def parse_checksum(value: bytes, expected_asset: str) -> str:
+    try:
+        text = value.decode("ascii")
+    except UnicodeDecodeError as exc:
+        raise UpdateError("stable release checksum is not ASCII") from exc
+    match = re.fullmatch(rf"([0-9a-f]{{64}})  {re.escape(expected_asset)}\n?", text)
+    if not match:
+        raise UpdateError("stable release checksum has an invalid format")
+    return match.group(1)
 
+
+def build_release(
+    version: Version,
+    manifest: dict[str, Any],
+    checksum: bytes,
+    asset: bytes,
+) -> Release:
     if manifest.get("name") != "mileswang-skill":
         raise UpdateError("release manifest has the wrong plugin identity")
     if manifest.get("version") != version.text:
         raise UpdateError("release tag and plugin manifest version do not match")
 
     expected_asset = f"mileswang-skill-v{version.text}.zip"
-    assets = payload.get("assets")
-    if not isinstance(assets, list):
-        raise UpdateError("stable release is missing its asset list")
-    matched = [
-        asset
-        for asset in assets
-        if isinstance(asset, dict) and asset.get("name") == expected_asset
-    ]
-    if len(matched) != 1:
-        raise UpdateError("stable release is missing its exact release asset")
-    digest = matched[0].get("digest")
-    if not isinstance(digest, str) or not re.fullmatch(r"sha256:[0-9a-f]{64}", digest):
-        raise UpdateError("stable release asset is missing a SHA-256 digest")
-    return Release(version, tag, expected_asset, digest)
+    expected_digest = parse_checksum(checksum, expected_asset)
+    actual_digest = hashlib.sha256(asset).hexdigest()
+    if actual_digest != expected_digest:
+        raise UpdateError("stable release asset failed SHA-256 verification")
+    return Release(version, version.tag, expected_asset, f"sha256:{actual_digest}")
 
 
-def resolve_latest_release(fetcher: Fetcher = fetch_json) -> Release:
-    payload = fetcher(LATEST_RELEASE_URL)
-    tag = payload.get("tag_name")
-    if not isinstance(tag, str) or not re.fullmatch(r"v\d+\.\d+\.\d+", tag):
-        raise UpdateError("latest release is missing a canonical stable tag")
-    manifest = fetcher(RAW_MANIFEST_TEMPLATE.format(tag=tag))
-    return parse_release(payload, manifest)
+def list_remote_stable_versions() -> list[Version]:
+    git = shutil.which("git")
+    if git is None:
+        raise UpdateError("Git is unavailable")
+    try:
+        completed = subprocess.run(
+            [git, "ls-remote", "--tags", "--refs", REPOSITORY_URL, "refs/tags/v*"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise UpdateError("could not read the official stable tags") from exc
+    if completed.returncode != 0:
+        raise UpdateError("could not read the official stable tags")
+
+    versions: set[Version] = set()
+    for line in completed.stdout.splitlines():
+        parts = line.split()
+        if len(parts) != 2:
+            continue
+        match = re.fullmatch(r"refs/tags/(v\d+\.\d+\.\d+)", parts[1])
+        if not match:
+            continue
+        try:
+            version = Version.parse(match.group(1))
+        except UpdateError:
+            continue
+        if match.group(1) == version.tag:
+            versions.add(version)
+    if not versions:
+        raise UpdateError("official repository has no stable release tag")
+    return sorted(versions)
+
+
+def resolve_latest_release(
+    tag_lister: TagLister = list_remote_stable_versions,
+    fetcher: ByteFetcher = fetch_bytes,
+) -> Release:
+    versions = tag_lister()
+    if not versions:
+        raise UpdateError("official repository has no stable release tag")
+    version = max(versions)
+    tag = version.tag
+    asset_name = f"mileswang-skill-v{version.text}.zip"
+    manifest = fetch_json(RAW_MANIFEST_TEMPLATE.format(tag=tag), fetcher)
+    asset_url = RELEASE_ASSET_TEMPLATE.format(tag=tag, asset=asset_name)
+    checksum = fetcher(f"{asset_url}.sha256")
+    asset = fetcher(asset_url)
+    return build_release(version, manifest, checksum, asset)
 
 
 def run_codex(arguments: list[str]) -> dict[str, Any]:

@@ -2,11 +2,15 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前稳定版本：[`v0.4.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.4.0)。
+当前稳定版本：[`v0.4.1`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.4.1)。
 
 它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
 
-## v0.4.0 包含什么
+## v0.4.1 包含什么
+
+`v0.4.1` 修复了匿名 GitHub REST API 限额耗尽时无法更新的问题。更新器
+不再调用 REST API，而是读取官方公开 Git 标签，并在变更安装前核验
+Release 安装包及其独立 SHA-256 文件；仍不需要 Miles API、Token 或账号。
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
@@ -44,7 +48,7 @@
 使用固定 tag 安装：
 
 ```bash
-codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.4.0
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.4.1
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
@@ -54,7 +58,7 @@ codex plugin add mileswang-skill@mileswang-skill
 
 ### 更新已安装的 Skill
 
-`v0.3.0` 及更早版本不包含更新器，必须先手动执行上面的 `v0.4.0`
+`v0.3.0` 及更早版本不包含更新器，必须先手动执行上面的 `v0.4.1`
 安装命令完成一次迁移。从 `v0.4.0` 开始，后续更新才可以直接说：
 
 安装包含 `miles-update` 的稳定版本后，直接说：
@@ -68,8 +72,8 @@ Release，不更新其他插件，也不追踪未经发布的 `main`。更新失
 原稳定版本；成功后必须新开对话才能加载新目录。
 
 这不是后台实时更新：不会创建定时任务、启动项或静默网络请求。更新检查
-使用 GitHub 的公开 Release 和 raw-content 端点，不需要 Miles API、API
-Key、账号或私有服务。
+使用 GitHub 的公开 Git 标签、raw content 和 Release 文件，不调用匿名
+REST API，也不需要 Miles API、API Key、账号或私有服务。
 
 ## 隐私边界
 
@@ -248,7 +252,7 @@ python3 tools/check_update_contract.py
 python3 tools/check_privacy_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
-python3 -m zipfile -t dist/mileswang-skill-v0.4.0.zip
+python3 -m zipfile -t dist/mileswang-skill-v0.4.1.zip
 ```
 
 合并后的 `v*` tag 必须与 `VERSION` 完全一致。tag 工作流会重新执行这些 Gate，并只在全部通过后创建 GitHub Release 和可下载 zip。发布成功证明的是版本、路由、结构和分发链成立，不证明内容效果。

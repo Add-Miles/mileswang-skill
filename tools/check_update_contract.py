@@ -27,10 +27,9 @@ def validate_update_contract() -> list[str]:
         if marker not in skill:
             errors.append(f"SKILL.md missing update boundary: {marker}")
     for marker in (
-        "releases/latest",
-        "draft",
-        "prerelease",
-        "sha256:",
+        "ls-remote",
+        ".sha256",
+        "hashlib.sha256",
         "plugin\", \"marketplace\", \"remove",
         "plugin\", \"add",
         "rollback",
@@ -38,7 +37,14 @@ def validate_update_contract() -> list[str]:
     ):
         if marker not in script:
             errors.append(f"updater missing stable-update marker: {marker}")
-    forbidden = ("marketplace\", \"upgrade", "--ref\", \"main", "API_KEY", "Authorization")
+    forbidden = (
+        "api.github.com",
+        "releases/latest",
+        "marketplace\", \"upgrade",
+        "--ref\", \"main",
+        "API_KEY",
+        "Authorization",
+    )
     for marker in forbidden:
         if marker in script:
             errors.append(f"updater contains forbidden behavior: {marker}")
@@ -49,7 +55,7 @@ def validate_update_contract() -> list[str]:
     if errors:
         raise ValueError("\n".join(errors))
     return [
-        "stable release authority and digest",
+        "stable Git tag authority and release checksum",
         "single-plugin update and rollback boundary",
         "no background or mutable-main updater",
     ]

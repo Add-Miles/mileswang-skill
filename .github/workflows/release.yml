@@ -42,6 +42,9 @@ jobs:
           python3 tools/build_release.py --output-dir dist
           VERSION="$(tr -d '[:space:]' < VERSION)"
           python3 -m zipfile -t "dist/mileswang-skill-v${VERSION}.zip"
+          cd dist
+          sha256sum "mileswang-skill-v${VERSION}.zip" > "mileswang-skill-v${VERSION}.zip.sha256"
+          sha256sum --check "mileswang-skill-v${VERSION}.zip.sha256"
 
       - name: Create GitHub Release
         env:
@@ -52,4 +55,5 @@ jobs:
             --verify-tag \
             --title "${GITHUB_REF_NAME}" \
             --generate-notes \
-            "dist/mileswang-skill-v${VERSION}.zip"
+            "dist/mileswang-skill-v${VERSION}.zip" \
+            "dist/mileswang-skill-v${VERSION}.zip.sha256"

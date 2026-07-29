@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import sys
 import unittest
 import urllib.error
@@ -19,18 +20,15 @@ sys.modules[SPEC.name] = UPDATE
 SPEC.loader.exec_module(UPDATE)
 
 
-def release_payload(version: str = "0.4.0") -> dict:
-    return {
-        "draft": False,
-        "prerelease": False,
-        "tag_name": f"v{version}",
-        "assets": [
-            {
-                "name": f"mileswang-skill-v{version}.zip",
-                "digest": "sha256:" + "a" * 64,
-            }
-        ],
-    }
+def verified_release(version: str = "0.4.1", asset: bytes = b"release zip"):
+    name = f"mileswang-skill-v{version}.zip"
+    digest = hashlib.sha256(asset).hexdigest()
+    return UPDATE.build_release(
+        UPDATE.Version.parse(version),
+        {"name": "mileswang-skill", "version": version},
+        f"{digest}  {name}\n".encode(),
+        asset,
+    )
 
 
 def plugin_item(plugin_id: str, version: str, source: str, enabled: bool = True) -> dict:
@@ -67,7 +65,7 @@ class FakeCodex:
             return {"removed": True}
         if args[:4] == ["plugin", "marketplace", "add", UPDATE.REPOSITORY]:
             self.pending_version = args[args.index("--ref") + 1].removeprefix("v")
-            if self.fail_target_add and self.pending_version == "0.4.0":
+            if self.fail_target_add and self.pending_version == "0.4.1":
                 raise UPDATE.UpdateError("simulated target add failure")
             return {"added": True}
         if args[:3] == ["plugin", "add", UPDATE.PLUGIN_ID]:
@@ -78,35 +76,53 @@ class FakeCodex:
 
 class ReleaseContractTests(unittest.TestCase):
     def test_accepts_exact_stable_release(self) -> None:
-        release = UPDATE.parse_release(
-            release_payload(), {"name": "mileswang-skill", "version": "0.4.0"}
-        )
-        self.assertEqual(release.version.text, "0.4.0")
+        release = verified_release()
+        self.assertEqual(release.version.text, "0.4.1")
+        self.assertRegex(release.asset_digest, r"^sha256:[0-9a-f]{64}$")
 
-    def test_rejects_prerelease_and_missing_digest(self) -> None:
-        payload = release_payload()
-        payload["prerelease"] = True
+    def test_rejects_malformed_checksum_and_digest_mismatch(self) -> None:
+        version = UPDATE.Version.parse("0.4.1")
         with self.assertRaises(UPDATE.UpdateError):
-            UPDATE.parse_release(payload, {"name": "mileswang-skill", "version": "0.4.0"})
+            UPDATE.build_release(
+                version,
+                {"name": "mileswang-skill", "version": "0.4.1"},
+                b"not-a-checksum\n",
+                b"release zip",
+            )
 
-        payload = release_payload()
-        payload["assets"][0]["digest"] = None
         with self.assertRaises(UPDATE.UpdateError):
-            UPDATE.parse_release(payload, {"name": "mileswang-skill", "version": "0.4.0"})
+            UPDATE.build_release(
+                version,
+                {"name": "mileswang-skill", "version": "0.4.1"},
+                f"{'0' * 64}  mileswang-skill-v0.4.1.zip\n".encode(),
+                b"release zip",
+            )
 
     def test_rejects_manifest_version_mismatch(self) -> None:
         with self.assertRaises(UPDATE.UpdateError):
-            UPDATE.parse_release(
-                release_payload(), {"name": "mileswang-skill", "version": "0.3.0"}
+            UPDATE.build_release(
+                UPDATE.Version.parse("0.4.1"),
+                {"name": "mileswang-skill", "version": "0.4.0"},
+                f"{'0' * 64}  mileswang-skill-v0.4.1.zip\n".encode(),
+                b"release zip",
             )
 
-    def test_rejects_malformed_stable_tag(self) -> None:
-        payload = release_payload()
-        payload["tag_name"] = "v0.4"
-        with self.assertRaises(UPDATE.UpdateError):
-            UPDATE.parse_release(
-                payload, {"name": "mileswang-skill", "version": "0.4.0"}
-            )
+    def test_resolver_selects_highest_stable_tag_and_verifies_asset(self) -> None:
+        asset = b"release zip"
+        digest = hashlib.sha256(asset).hexdigest()
+
+        def fetcher(url: str) -> bytes:
+            if url.endswith("plugin.json"):
+                return b'{"name":"mileswang-skill","version":"0.4.1"}'
+            if url.endswith(".sha256"):
+                return f"{digest}  mileswang-skill-v0.4.1.zip\n".encode()
+            return asset
+
+        release = UPDATE.resolve_latest_release(
+            lambda: [UPDATE.Version.parse("0.3.0"), UPDATE.Version.parse("0.4.1")],
+            fetcher,
+        )
+        self.assertEqual(release.version.text, "0.4.1")
 
     def test_network_failure_is_generic_and_fail_closed(self) -> None:
         with (
@@ -118,23 +134,26 @@ class ReleaseContractTests(unittest.TestCase):
             ),
         ):
             with self.assertRaisesRegex(
-                UPDATE.UpdateError, "public stable-release metadata"
+                UPDATE.UpdateError, "public stable-release files"
             ) as raised:
-                UPDATE.fetch_json(UPDATE.LATEST_RELEASE_URL)
+                UPDATE.fetch_bytes("https://example.invalid/release.zip")
         self.assertNotIn("private network detail", str(raised.exception))
+
+    def test_missing_git_stops_before_tag_lookup(self) -> None:
+        with mock.patch.object(UPDATE.shutil, "which", return_value=None):
+            with self.assertRaisesRegex(UPDATE.UpdateError, "Git is unavailable"):
+                UPDATE.list_remote_stable_versions()
 
 
 class UpdateBehaviorTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.release = UPDATE.parse_release(
-            release_payload(), {"name": "mileswang-skill", "version": "0.4.0"}
-        )
+        self.release = verified_release()
 
     def test_updates_only_official_plugin(self) -> None:
         fake = FakeCodex()
         result = UPDATE.apply_update(self.release, fake)
         self.assertEqual(result["status"], "updated")
-        self.assertEqual(fake.version, "0.4.0")
+        self.assertEqual(fake.version, "0.4.1")
         self.assertEqual(fake.other["version"], "1.0.0")
         self.assertFalse(any(command[:3] == ["plugin", "marketplace", "upgrade"] for command in fake.commands))
 
