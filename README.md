@@ -58,8 +58,16 @@ codex plugin add mileswang-skill@mileswang-skill
 
 ### 更新已安装的 Skill
 
-`v0.3.0` 及更早版本不包含更新器，必须先手动执行上面的 `v0.4.1`
-安装命令完成一次迁移。从 `v0.4.0` 开始，后续更新才可以直接说：
+`v0.3.0` 及更早版本不包含更新器，必须先手动完成一次迁移：
+
+```bash
+codex plugin marketplace remove mileswang-skill
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.4.1
+codex plugin add mileswang-skill@mileswang-skill
+```
+
+`v0.4.0` 已包含更新器，但匿名 GitHub REST API 限额耗尽时可能检查失败；
+此时也执行上面的固定 tag 迁移命令。从 `v0.4.1` 开始，后续更新可以直接说：
 
 安装包含 `miles-update` 的稳定版本后，直接说：
 
