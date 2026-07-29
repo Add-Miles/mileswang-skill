@@ -3,7 +3,8 @@
   "internal_skills": [
     "miles-content",
     "miles-project",
-    "miles-x-methodology"
+    "miles-x-methodology",
+    "miles-video-editing"
   ],
   "cases": [
     {
@@ -13,6 +14,7 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology",
         "pdf:pdf"
       ],
@@ -35,6 +37,7 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -56,6 +59,7 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -78,6 +82,7 @@
         "browser:control-in-app-browser",
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -95,12 +100,39 @@
       ]
     },
     {
+      "id": "internal-v10-talking-head-edit",
+      "request": "用 mileswang 剪这条已上传的口播视频，按 V10 做语义卡片、字幕、微特效和空间避让。",
+      "requested_skill": null,
+      "active_skills": [
+        "hyperframes",
+        "hyperframes-cli",
+        "media-use",
+        "miles-content",
+        "miles-project",
+        "miles-video-editing",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-video-editing",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "portable workspace",
+        "semantic storyboard",
+        "preview approval",
+        "real MP4 verification"
+      ]
+    },
+    {
       "id": "external-pdf-pass-through",
       "request": "Use the installed `pdf:pdf` Skill to edit this PDF.",
       "requested_skill": "pdf:pdf",
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology",
         "pdf:pdf"
       ],
@@ -126,6 +158,7 @@
         "github:gh-fix-ci",
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -148,6 +181,7 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -172,6 +206,7 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology",
         "pdf:pdf",
         "vercel:deployments-cicd"
@@ -201,6 +236,7 @@
         "chrome:control-chrome",
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -225,6 +261,7 @@
         "general-video",
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "expected": {
@@ -250,6 +287,7 @@
       "active_skills": [
         "miles-content",
         "miles-project",
+        "miles-video-editing",
         "miles-x-methodology"
       ],
       "inactive_skills": [

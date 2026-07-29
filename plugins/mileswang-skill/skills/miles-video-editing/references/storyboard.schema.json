@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Miles portable V10 storyboard",
+  "type": "object",
+  "required": ["schema_version", "source", "output", "beats", "captions", "events", "assets"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "source": {
+      "type": "object",
+      "required": ["duration", "sha256"],
+      "properties": {
+        "duration": {"type": "number", "exclusiveMinimum": 0},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": ["width", "height", "fps"],
+      "properties": {
+        "width": {"const": 1080},
+        "height": {"const": 1920},
+        "fps": {"type": "integer", "minimum": 24, "maximum": 60}
+      }
+    },
+    "beats": {"type": "array", "minItems": 1},
+    "captions": {"type": "array"},
+    "events": {"type": "array"},
+    "assets": {"type": "array"}
+  }
+}

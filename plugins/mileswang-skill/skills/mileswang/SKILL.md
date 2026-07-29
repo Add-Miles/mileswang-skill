@@ -38,6 +38,7 @@ Skills; every next route must depend on the actual current result.
    - Use [miles-project](../miles-project/SKILL.md) for building, changing, repairing, restoring, migrating, publishing, or deploying a project.
    - Use [miles-content](../miles-content/SKILL.md) for creating, diagnosing, or revising creator-facing content.
    - Use [miles-x-methodology](../miles-x-methodology/SKILL.md) when real X post material must be analyzed into evidence-labeled first principles, methodology, transferable actions, and verification boundaries.
+   - Use [miles-video-editing](../miles-video-editing/SKILL.md) when one supplied talking-head video must become a V10-style semantic edit with a real checked and approved render path.
    - Use neither when the request is a direct question or belongs entirely to another specialist.
 
 Read the [routing playbook](references/routing-playbook.md) only when ownership is unclear, multiple tasks are mixed together, or a specialist skill must be combined with a Miles module.
@@ -100,6 +101,7 @@ Do not scan `~/.codex/skills`, `~/.agents/skills`, `~/.claude/skills`, plugin ca
 - Add `miles-project` as a governance layer only when the work changes a project, has an ambiguous target, or involves restoration, migration, publication, or deployment.
 - Add `miles-content` only when the deliverable itself is creator-facing content.
 - Add `miles-x-methodology` around an external acquisition executor only for URL-only X methodology requests; after acquisition it analyzes the returned evidence and does not replace the acquisition executor.
+- Keep `miles-video-editing` as the internal method owner. Its selected external transcription and HyperFrames executors retain their exact active-catalog names and procedures.
 - Do not rename, copy, paraphrase, or present a third-party skill as a Miles-owned capability.
 - Do not invent an internal module for a capability that has no real implementation, license basis, input, and acceptance path.
 - Calling a Skill supplied independently outside this plugin is delegation, not redistribution. Never copy its prompt, code, assets, local data, or credentials into this plugin.

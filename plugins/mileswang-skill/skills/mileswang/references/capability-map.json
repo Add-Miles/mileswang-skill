@@ -20,6 +20,12 @@
       "evidence": "contract-tested-awaiting-real-session-and-user-acceptance"
     },
     {
+      "id": "semantic-video-editing",
+      "state": "candidate-owned",
+      "executor": "miles-video-editing",
+      "evidence": "portable-contract-tested-awaiting-v10-same-input-and-user-acceptance"
+    },
+    {
       "id": "external-specialists",
       "state": "external-runtime",
       "executor": null,
