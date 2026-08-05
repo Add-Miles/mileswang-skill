@@ -1,11 +1,6 @@
 ---
 name: miles-prd-framework
-description: >-
-  Extract portable writing frameworks and module I/O contracts from complete
-  PRDs (link or text), then structure-fill half drafts without topic-polluted
-  skeletons. Use when the user shares a PRD, asks to 梳理PRD框架, learn
-  transferable structure, 模块契约, or 补全半成品PRD; do not invent full product
-  specs without source material or bypass internal-doc permissions.
+description: "Extract portable writing frameworks and module I/O contracts from complete PRDs, then structure-fill half drafts without topic-polluted skeletons. Use for PRD links, 梳理PRD框架, 模块契约, or 补全半成品PRD; never invent full specs without source or bypass doc permissions."
 ---
 
 # Miles PRD Framework
