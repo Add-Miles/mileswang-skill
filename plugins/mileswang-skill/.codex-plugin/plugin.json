@@ -1,6 +1,6 @@
 {
   "name": "mileswang-skill",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Route work to the narrowest active Skill with evidence-backed project, content, video, and stable self-update workflows.",
   "author": {
     "name": "Miles Wang",
@@ -17,7 +17,8 @@
     "video-editing",
     "self-update",
     "evidence",
-    "workflow"
+    "workflow",
+    "prd"
   ],
   "skills": "./skills/",
   "interface": {

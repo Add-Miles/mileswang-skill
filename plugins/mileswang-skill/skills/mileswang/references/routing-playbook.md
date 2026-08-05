@@ -13,6 +13,7 @@ Use this reference only when the primary skill is not obvious.
 | Analyze an X URL whose content has not been retrieved | Matching active browser or research Skill | `miles-x-methodology` | The external executor acquires the source; the Miles layer analyzes only returned evidence. |
 | Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; the default path uses the pinned public local toolchain and no author API. |
 | Check or install a newer stable Miles plugin release | `miles-update` | None | Update only the official Miles marketplace/plugin, preserve unrelated plugins, and activate in a new conversation. |
+| Learn writing frames from a complete PRD, or fill structure on a half draft against that frame | `miles-prd-framework` | None | Prefer outline-only; never bypass restricted PRD access. |
 | Browser, spreadsheet, image, video, document, API, or platform-specific operation | Matching specialist skill | Add a Miles layer only if the deliverable also meets its trigger | Do not make `mileswang` perform the specialist procedure. |
 | Explanation, translation, lookup, or small factual answer | Direct answer or matching research skill | None by default | Do not force a project contract onto a simple request. |
 | Two independent deliverables | One owner or agent per deliverable | Apply per task | Do not hide two tasks inside one vague execution plan. |
@@ -188,3 +189,20 @@ Before delegating, include all of the following:
 - current scope, prohibitions, permissions, and acceptance evidence.
 
 After delegation, inspect the original inputs and verify the result yourself. A structured report or a completion claim is not evidence by itself.
+
+### Example: PRD framework from complete document
+
+Input includes a readable PRD link or full text and asks how this team structures requirements.
+
+1. Select `miles-prd-framework` as the internal executor.
+2. Return a lean frame (type, section order, empty skeleton), not a full rewrite.
+3. If the link is inaccessible, stop and request paste or export; do not invent body content.
+
+### Example: half PRD structure fill
+
+Input includes a half draft and a previously extracted or co-supplied complete PRD frame.
+
+1. Select `miles-prd-framework`.
+2. Contrast draft sections against the frame; output add/keep/optional only.
+3. Do not expand into implementation detail without the user’s draft request.
+
