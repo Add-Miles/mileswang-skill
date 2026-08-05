@@ -2,15 +2,15 @@
 
 `mileswang-skill` 是 Miles Wang 的可安装 Codex 工作流合集：对外只有一个品牌和安装入口，内部按任务拆成独立 Skill，并允许以后持续增加真实、可验证的新能力。
 
-当前稳定版本：[`v0.5.0`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.5.0)。
+当前稳定版本：[`v0.5.1`](https://github.com/Add-Miles/mileswang-skill/releases/tag/v0.5.1)。
 
 它不是把第三方 Skill 改名后重新发布，也不是把 Grok、ChatGPT 或其他模型“封装进一个提示词”。v0.3.0 在既有路由、项目执行与内容创作底盘上，新增已真实验收的 V10 语义视频剪辑能力；X 方法论仍是候选，不冒充已发布能力。
 
-## v0.5.0 包含什么
+## v0.5.1 包含什么
 
-`v0.5.0` 在既有能力上新增候选 Skill `miles-prd-framework`：从完整 PRD
-抽取写作框架，并对照框架补半成品结构。更新器仍按公开 Git 标签与 Release
-SHA-256 核验；不需要 Miles API、Token 或账号。`v0.4.1` 的无 REST 更新行为保持不变。
+`v0.5.1` 升级候选 Skill `miles-prd-framework`：从完整 PRD 提炼可迁移写作框架，
+并强制输出模块契约与接口表（职责、输入、输出、交接、异常、验收）；通用骨架与
+主题实例映射分离，结构缺口与素材缺口分列。安装与更新仍不需要 Miles API。
 
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ SHA-256 核验；不需要 Miles API、Token 或账号。`v0.4.1` 的无 REST �
 使用固定 tag 安装：
 
 ```bash
-codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.5.0
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.5.1
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
@@ -63,12 +63,12 @@ codex plugin add mileswang-skill@mileswang-skill
 
 ```bash
 codex plugin marketplace remove mileswang-skill
-codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.5.0
+codex plugin marketplace add Add-Miles/mileswang-skill --ref v0.5.1
 codex plugin add mileswang-skill@mileswang-skill
 ```
 
 `v0.4.0` 已包含更新器，但匿名 GitHub REST API 限额耗尽时可能检查失败；
-此时也执行上面的固定 tag 迁移命令。从 `v0.5.0` 开始，后续更新可以直接说：
+此时也执行上面的固定 tag 迁移命令。从 `v0.5.1` 开始，后续更新可以直接说：
 
 安装包含 `miles-update` 的稳定版本后，直接说：
 
@@ -261,7 +261,7 @@ python3 tools/check_update_contract.py
 python3 tools/check_privacy_contract.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/build_release.py --output-dir dist
-python3 -m zipfile -t dist/mileswang-skill-v0.5.0.zip
+python3 -m zipfile -t dist/mileswang-skill-v0.5.1.zip
 ```
 
 合并后的 `v*` tag 必须与 `VERSION` 完全一致。tag 工作流会重新执行这些 Gate，并只在全部通过后创建 GitHub Release 和可下载 zip。发布成功证明的是版本、路由、结构和分发链成立，不证明内容效果。
