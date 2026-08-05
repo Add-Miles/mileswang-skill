@@ -46,6 +46,7 @@ not.
    - Use [miles-video-editing](../miles-video-editing/SKILL.md) when one supplied talking-head video must become a V10-style semantic edit with a real checked and approved render path.
    - Use [miles-ai-video](../miles-ai-video/SKILL.md) for planning, adapting, or reviewing AI-assisted short videos and demo videos from verified source material.
    - Use [miles-update](../miles-update/SKILL.md) when the user explicitly asks to check or install the latest stable `mileswang-skill` release.
+   - Use [miles-prd-framework](../miles-prd-framework/SKILL.md) when a complete PRD must become a lean writing framework, or a half draft needs structure filled against that framework.
    - Use neither when the request is a direct question or belongs entirely to another specialist.
 
 Read the [routing playbook](references/routing-playbook.md) only when ownership is unclear, multiple tasks are mixed together, or a specialist skill must be combined with a Miles module.

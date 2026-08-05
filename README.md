@@ -17,6 +17,7 @@ Release 安装包及其独立 SHA-256 文件；仍不需要 Miles API、Token �
 | `mileswang` | 用户只有模糊目标、不确定该用哪个 Skill，或希望调用已安装的第三方 Skill | 依据当前会话 active catalog，路由到精确内部或外部 executor |
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
+| `miles-prd-framework`（候选） | 从完整 PRD 抽取写作框架，或对照框架补半成品结构 | 短框架笔记 / 结构缺口与建议目录；不绕过文档权限 |
 | `miles-ai-video` | 策划、改编或审查 AI 产品演示与短视频 | 30-90 秒结构、镜头清单、屏幕证据、字幕/口播点和剪辑检查 |
 | `miles-x-methodology`（候选） | 分析已提供或真实获取的 X 帖子材料 | 固定五问、证据标签、第一性原理、可迁移行动、未核验主张与最小验证动作；当前等待真实新会话与 Miles 内容验收 |
 | `miles-video-editing` | 把一条真实口播视频做成 V10 风格语义剪辑 | 可迁移工作区、语义分镜、信息卡、空间避让、HyperFrames 检查与成片验收；已通过两条真人视频、用户确认和隔离安装验收 |
@@ -26,7 +27,7 @@ Release 安装包及其独立 SHA-256 文件；仍不需要 Miles API、Token �
 
 `mileswang-skill` 的长期能力分成两类，不能混为一谈：
 
-- **Miles 自有能力**：由 Miles 定义、验证和发布。已发布能力包括 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing` 和 `miles-update`；`miles-x-methodology` 仍是候选，完成真实内容验收前不算稳定发布。
+- **Miles 自有能力**：由 Miles 定义、验证和发布。已发布能力包括 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing` 和 `miles-update`；`miles-x-methodology` 与 `miles-prd-framework` 仍是候选，完成真实内容验收前不算稳定发布。
 - **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
 
 路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。

@@ -38,6 +38,12 @@
       "evidence": "real-v0.2-to-v0.3-upgrade-rollback-contract-and-release-tested"
     },
     {
+      "id": "prd-framework-learning",
+      "state": "candidate-owned",
+      "executor": "miles-prd-framework",
+      "evidence": "contract-tested-awaiting-real-session-and-user-acceptance"
+    },
+    {
       "id": "external-specialists",
       "state": "external-runtime",
       "executor": null,

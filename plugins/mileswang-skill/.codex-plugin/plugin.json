@@ -17,7 +17,8 @@
     "video-editing",
     "self-update",
     "evidence",
-    "workflow"
+    "workflow",
+    "prd"
   ],
   "skills": "./skills/",
   "interface": {
