@@ -7,6 +7,7 @@
     "miles-project",
     "miles-update",
     "miles-video-editing",
+    "miles-x-memory",
     "miles-x-methodology"
   ],
   "cases": [
@@ -22,7 +23,8 @@
         "miles-prd-framework",
         "miles-video-editing",
         "miles-x-methodology",
-        "pdf:pdf"
+        "pdf:pdf",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -47,7 +49,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -72,7 +75,8 @@
         "miles-project",
         "miles-update",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -98,7 +102,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -113,6 +118,36 @@
       ]
     },
     {
+      "id": "internal-x-memory-daily-digest",
+      "request": "总结我今天在本地 X Memory 里打开过的帖子，并列出沉淀的 skill 账本。",
+      "requested_skill": null,
+      "active_skills": [
+        "miles-ai-video",
+        "miles-content",
+        "miles-prd-framework",
+        "miles-project",
+        "miles-update",
+        "miles-video-editing",
+        "miles-x-memory",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-x-memory",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "local XMemory",
+        "content value",
+        "skill ledger"
+      ],
+      "must_not_route_to": [
+        "miles-x-methodology",
+        "miles-content"
+      ]
+    },
+    {
       "id": "internal-ai-video-demo-plan",
       "request": "把我的 AI 产品做成一个 60 秒演示视频，先给我镜头和剪辑方案。",
       "requested_skill": null,
@@ -123,7 +158,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -148,7 +184,8 @@
         "miles-prd-framework",
         "miles-update",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -175,7 +212,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "external-available",
@@ -205,7 +243,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "internal",
@@ -232,7 +271,8 @@
         "miles-prd-framework",
         "miles-video-editing",
         "miles-x-methodology",
-        "pdf:pdf"
+        "pdf:pdf",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "external-available",
@@ -260,7 +300,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "external-available",
@@ -286,7 +327,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "unavailable",
@@ -316,7 +358,8 @@
         "miles-video-editing",
         "miles-x-methodology",
         "pdf:pdf",
-        "vercel:deployments-cicd"
+        "vercel:deployments-cicd",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "external-available",
@@ -347,7 +390,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "ambiguous",
@@ -375,7 +419,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "expected": {
         "status": "ambiguous",
@@ -404,7 +449,8 @@
         "miles-project",
         "miles-prd-framework",
         "miles-video-editing",
-        "miles-x-methodology"
+        "miles-x-methodology",
+        "miles-x-memory"
       ],
       "inactive_skills": [
         "vendor:cached-only"

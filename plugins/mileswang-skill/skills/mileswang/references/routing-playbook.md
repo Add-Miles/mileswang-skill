@@ -10,6 +10,7 @@ Use this reference only when the primary skill is not obvious.
 | Draft, script, post, title, article, or revision for an audience | Narrowest applicable platform or format skill, otherwise `miles-content` | `miles-content` | Preserve facts, find a real scene and conflict, and cut filler. |
 | Plan, adapt, or review an AI product demo or short video without rendering a new final cut | `miles-ai-video` | None | Return a concrete structure, shot list, proof moment, or timestamped review from verified material. |
 | Analyze supplied X material into first principles, methodology, transfer, and claim boundaries | `miles-x-methodology` | None | Use only the supplied and actually read evidence. |
+| Summarize local X Memory opens, content-value daily digests, or Skill-share ledger | `miles-x-memory` | None | Local disk only; do not re-scrape X or invent bodies. |
 | Analyze an X URL whose content has not been retrieved | Matching active browser or research Skill | `miles-x-methodology` | The external executor acquires the source; the Miles layer analyzes only returned evidence. |
 | Turn supplied talking-head footage into a semantic V10-style edit | `miles-video-editing` | None | Miles owns the method and workspace; the default path uses the pinned public local toolchain and no author API. |
 | Check or install a newer stable Miles plugin release | `miles-update` | None | Update only the official Miles marketplace/plugin, preserve unrelated plugins, and activate in a new conversation. |
@@ -205,4 +206,17 @@ Input includes a half draft and a previously extracted or co-supplied complete P
 1. Select `miles-prd-framework`.
 2. Contrast draft sections against the frame; output add/keep/optional only.
 3. Do not expand into implementation detail without the user’s draft request.
+
+### Example: local X Memory daily digest
+
+Input:
+
+> 总结我今天刷过的 X，并列出沉淀了哪些 skill。
+
+Route:
+
+1. Select `miles-x-memory` as the internal executor.
+2. Read only the local XMemory data directory and skills ledger.
+3. Do not route to `miles-x-methodology` unless the user asks for protected five-question methodology analysis of a specific post.
+4. Do not route to a browser Skill merely to re-open posts already on disk.
 

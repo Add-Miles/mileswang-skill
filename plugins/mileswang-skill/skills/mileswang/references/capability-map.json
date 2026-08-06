@@ -26,6 +26,12 @@
       "evidence": "contract-tested-awaiting-real-session-and-user-acceptance"
     },
     {
+      "id": "local-x-memory-summary",
+      "state": "candidate-owned",
+      "executor": "miles-x-memory",
+      "evidence": "golden-sample-slicer-vs-auth-filter-local-disk-and-user-accepted"
+    },
+    {
       "id": "semantic-video-editing",
       "state": "released-owned",
       "executor": "miles-video-editing",

@@ -43,6 +43,7 @@ not.
    - Use [miles-project](../miles-project/SKILL.md) for building, changing, repairing, restoring, migrating, publishing, or deploying a project.
    - Use [miles-content](../miles-content/SKILL.md) for creating, diagnosing, or revising creator-facing content.
    - Use [miles-x-methodology](../miles-x-methodology/SKILL.md) when real X post material must be analyzed into evidence-labeled first principles, methodology, transferable actions, and verification boundaries.
+   - Use [miles-x-memory](../miles-x-memory/SKILL.md) when summarizing posts already stored in local X Memory, or listing Skill shares from the local skills ledger.
    - Use [miles-video-editing](../miles-video-editing/SKILL.md) when one supplied talking-head video must become a V10-style semantic edit with a real checked and approved render path.
    - Use [miles-ai-video](../miles-ai-video/SKILL.md) for planning, adapting, or reviewing AI-assisted short videos and demo videos from verified source material.
    - Use [miles-update](../miles-update/SKILL.md) when the user explicitly asks to check or install the latest stable `mileswang-skill` release.
