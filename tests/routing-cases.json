@@ -2,6 +2,7 @@
   "schema_version": 2,
   "internal_skills": [
     "miles-ai-video",
+    "miles-case-learning",
     "miles-content",
     "miles-prd-framework",
     "miles-project",
@@ -17,6 +18,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-content",
+        "miles-case-learning",
         "miles-ai-video",
         "miles-update",
         "miles-project",
@@ -36,6 +38,42 @@
         "single core task",
         "real input",
         "acceptance evidence"
+      ],
+      "must_not_route_to": [
+        "miles-case-learning"
+      ]
+    },
+    {
+      "id": "internal-case-learning-from-public-example",
+      "request": "这是一个公开工具的官网、README 和截图。不要直接帮我仿做；请区分事实和推断，拆出输入、规则、输出、验证和失败处理，并设计一段安全的最小复现。",
+      "requested_skill": null,
+      "active_skills": [
+        "miles-ai-video",
+        "miles-case-learning",
+        "miles-content",
+        "miles-prd-framework",
+        "miles-project",
+        "miles-update",
+        "miles-video-editing",
+        "miles-x-memory",
+        "miles-x-methodology"
+      ],
+      "expected": {
+        "status": "internal",
+        "executor": "miles-case-learning",
+        "miles_layers": [],
+        "candidates": []
+      },
+      "must_show": [
+        "evidence ledger",
+        "shortest chain",
+        "safe minimal reproduction",
+        "transferable rule"
+      ],
+      "must_not_route_to": [
+        "miles-project",
+        "miles-prd-framework",
+        "miles-x-methodology"
       ]
     },
     {
@@ -45,6 +83,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -70,6 +109,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-case-learning",
         "miles-content",
         "miles-prd-framework",
         "miles-project",
@@ -97,6 +137,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-content",
         "miles-project",
@@ -123,6 +164,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-case-learning",
         "miles-content",
         "miles-prd-framework",
         "miles-project",
@@ -153,6 +195,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-content",
         "miles-project",
@@ -179,6 +222,7 @@
       "requested_skill": null,
       "active_skills": [
         "miles-ai-video",
+        "miles-case-learning",
         "miles-content",
         "miles-project",
         "miles-prd-framework",
@@ -207,6 +251,7 @@
       "active_skills": [
         "browser:control-in-app-browser",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-content",
         "miles-project",
@@ -238,6 +283,7 @@
         "hyperframes-cli",
         "media-use",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-content",
         "miles-project",
@@ -266,6 +312,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -296,6 +343,7 @@
         "github:gh-fix-ci",
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -323,6 +371,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -352,6 +401,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -386,6 +436,7 @@
         "chrome:control-chrome",
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -415,6 +466,7 @@
         "general-video",
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",
@@ -445,6 +497,7 @@
       "active_skills": [
         "miles-content",
         "miles-ai-video",
+        "miles-case-learning",
         "miles-update",
         "miles-project",
         "miles-prd-framework",

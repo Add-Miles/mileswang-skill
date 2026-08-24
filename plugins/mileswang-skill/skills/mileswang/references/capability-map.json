@@ -50,6 +50,12 @@
       "evidence": "contract-tested-awaiting-real-session-and-user-acceptance"
     },
     {
+      "id": "case-to-method-learning",
+      "state": "candidate-owned",
+      "executor": "miles-case-learning",
+      "evidence": "contract-tested-awaiting-real-session-and-user-acceptance"
+    },
+    {
       "id": "external-specialists",
       "state": "external-runtime",
       "executor": null,

@@ -12,12 +12,17 @@
 内容价值 Gate 与 Skill 分享账本；只读本地，不重新抓 X。并延续既有叶子与候选能力
 （含 `miles-prd-framework` 模块契约输出）。安装与更新仍不需要 Miles API。
 
+`main` 还包含候选模块 `miles-case-learning`：从现成产品、工具、工作流、公开仓库、
+创作者帖子或公开案例中提炼可验证的学习路径。它尚未进入 `v0.6.0` 稳定 tag，必须先
+通过真实会话和用户验收，才会在后续版本中作为稳定能力发布。
+
 | Skill | 何时使用 | 产出 |
 | --- | --- | --- |
 | `mileswang` | 用户只有模糊目标、不确定该用哪个 Skill，或希望调用已安装的第三方 Skill | 依据当前会话 active catalog，路由到精确内部或外部 executor |
 | `miles-project` | 开发、迁移、恢复、发布、部署或其他需要真实执行闭环的项目 | 唯一需求合同、版本权威判断、执行与验证路径 |
 | `miles-content` | 选题、口播稿、短视频文案、文章等内容需要诊断或改写 | 真实场景与冲突、删减后的成稿、事实与证据边界 |
 | `miles-prd-framework`（候选） | 从完整 PRD 抽取写作框架，或对照框架补半成品结构 | 短框架笔记 / 结构缺口与建议目录；不绕过文档权限 |
+| `miles-case-learning`（候选，当前仅 main） | 从现成产品、工具、工作流、公开仓库、创作者帖子或公开案例学习方法 | 区分证据、推断与未知；最短链路；安全的最小复现；卡点记录和可迁移规则；不直接复制整个产品 |
 | `miles-ai-video` | 策划、改编或审查 AI 产品演示与短视频 | 30-90 秒结构、镜头清单、屏幕证据、字幕/口播点和剪辑检查 |
 | `miles-x-methodology`（候选） | 分析已提供或真实获取的 X 帖子材料 | 固定五问、证据标签、第一性原理、可迁移行动、未核验主张与最小验证动作；当前等待真实新会话与 Miles 内容验收 |
 | `miles-x-memory`（候选） | 总结本地 X Memory 打开过的帖、内容价值过滤、Skill 分享账本 | 日结 useful/filtered、skills 账本；只读本地，不重新抓 X |
@@ -28,7 +33,7 @@
 
 `mileswang-skill` 的长期能力分成两类，不能混为一谈：
 
-- **Miles 自有能力**：由 Miles 定义、验证和发布。已发布能力包括 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing` 和 `miles-update`；`miles-x-methodology`、`miles-prd-framework` 与 `miles-x-memory` 仍是候选，完成真实内容验收前不算稳定发布。
+- **Miles 自有能力**：由 Miles 定义、验证和发布。已发布能力包括 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing` 和 `miles-update`；`miles-x-methodology`、`miles-prd-framework`、`miles-x-memory` 与 `miles-case-learning` 仍是候选，完成真实内容验收前不算稳定发布。
 - **外部专业能力**：由其他作者独立安装和维护。`mileswang` 只在该 Skill 出现在当前会话 active catalog 且确实适合任务时，保留其完整规范名并委托执行。
 
 路线图中的候选能力不是已发布 Skill。候选项只有获得真实输入、认可结果或 Golden Sample、独立触发边界、合法来源和真实路径验收后，才会在单独迭代中成为新的 `miles-*` 模块。
@@ -128,6 +133,10 @@ heads/tags 历史也由 CI 扫描。历史重写无法删除他人的克隆或�
 ```
 
 ```text
+这是一个公开产品和它的 README。不要直接帮我仿做；请拆出可证实的输入、规则、输出、验证和失败处理，并给我一个安全的最小复现。
+```
+
+```text
 用 mileswang 剪这条口播视频。先做依赖预检和语义分镜，最终预览未经我确认不要渲染。
 ```
 
@@ -147,7 +156,7 @@ heads/tags 历史也由 CI 扫描。历史重写无法删除他人的克隆或�
 
 路由只认宿主提供的 active Skill catalog：
 
-- `internal`：使用 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing`，或候选 `miles-x-methodology`、`miles-update`；
+- `internal`：使用 `miles-project`、`miles-content`、`miles-ai-video`、`miles-video-editing`，或候选 `miles-x-methodology`、`miles-prd-framework`、`miles-x-memory`、`miles-case-learning`；
 - `external-available`：使用当前会话真实可用的外部 Skill，并保留完整规范名，例如 `pdf:pdf`、`github:gh-fix-ci`；
 - `unavailable`：用户点名的 Skill 当前不可用，不静默替换；
 - `ambiguous`：多个 active Skill 同样适用，或同一规范名对应多个不可区分的宿主条目；只问一个能决定归属的问题。
